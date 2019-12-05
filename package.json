@@ -3,7 +3,9 @@
   "main": "dist/google-login.umd.js",
   "scripts": {
     "prettier": "prettier *.json src/**/*.{ts,tsx}",
-    "tslint": "tslint src/**/*.{ts,tsx}"
+    "prettier:write": "prettier --write *.json src/**/*.{ts,tsx}",
+    "tslint": "tslint src/**/*.{ts,tsx}",
+    "tslint:fix": "tslint --fix src/**/*.{ts,tsx}"
   },
   "devDependencies": {
     "@types/react": "^16.9.15",
@@ -33,7 +35,14 @@
     "semi": false
   },
   "lint-staged": {
-    "*.json": "prettier --write && git add",
-    "src/**/*.ts?(x)": "prettier --write && tslint --fix && git add"
+    "*.json": [
+      "npm run prettier:write",
+      "git add"
+    ],
+    "src/**/*.ts?(x)": [
+      "npm run prettier:write",
+      "npm run tslint:fix",
+      "git add"
+    ]
   }
 }
