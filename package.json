@@ -1,0 +1,38 @@
+{
+  "private": "true",
+  "main": "dist/google-login.umd.js",
+  "scripts": {
+    "prettier": "prettier --write **/*.{tsx,json}",
+    "tslint": "tslint **/*.tsx"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.15",
+    "@types/react-dom": "^16.9.4",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "rollup": "^1.27.8",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.1.0",
+    "typescript": "^3.7.3"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false
+  },
+  "lint-staged": {
+    "*.{tsx,json}": "npm run prettier"
+  }
+}
