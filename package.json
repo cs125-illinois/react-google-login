@@ -2,6 +2,7 @@
   "private": "true",
   "main": "dist/google-login.umd.js",
   "scripts": {
+    "build": "rollup -c",
     "prettier": "prettier *.json src/**/*.{ts,tsx}",
     "prettier:write": "prettier --write *.json src/**/*.{ts,tsx}",
     "tslint": "tslint src/**/*.{ts,tsx}",
@@ -27,7 +28,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run build && lint-staged"
     }
   },
   "prettier": {
@@ -36,12 +37,12 @@
   },
   "lint-staged": {
     "*.json": [
-      "npm run prettier:write",
+      "prettier --write",
       "git add"
     ],
     "src/**/*.ts?(x)": [
-      "npm run prettier:write",
-      "npm run tslint:fix",
+      "prettier --write",
+      "tslint --fix",
       "git add"
     ]
   }
