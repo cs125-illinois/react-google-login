@@ -70,5 +70,8 @@
       "bash -c \"npm run depcheck:example\"",
       "git add"
     ]
+  },
+  "dependencies": {
+    "utility-types": "^3.10.0"
   }
 }
