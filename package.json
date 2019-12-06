@@ -33,7 +33,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run depcheck && npm run tsc:check && lint-staged"
+      "pre-commit": "npm run depcheck && lint-staged"
     }
   },
   "prettier": {
@@ -51,11 +51,13 @@
     "src/**/*.ts?(x)": [
       "prettier --write",
       "tslint --fix",
+      "tsc --noEmit --project .",
       "git add"
     ],
     "example/**/*.ts?(x)": [
       "prettier --write",
       "tslint --fix",
+      "tsc --noEmit --project example",
       "git add"
     ]
   }
