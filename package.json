@@ -12,7 +12,9 @@
     "prettier:write": "prettier --write *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
     "tslint": "tslint --project . && tslint --project example",
     "tslint:fix": "tslint --fix --project . && tslint --fix --project example",
-    "depcheck": "depcheck --ignore-dirs example --ignores depcheck && depcheck example/ --ignore-dirs .cache --ignores gatsby-plugin-*,@types/*,typescript"
+    "depcheck:src": "depcheck --ignore-dirs example --ignores depcheck",
+    "depcheck:example": "depcheck example/ --ignore-dirs .cache --ignores gatsby-plugin-*,@types/*,typescript",
+    "depcheck": "npm run depcheck:src && npm run depcheck:example"
   },
   "devDependencies": {
     "@types/react": "^16.9.15",
@@ -52,12 +54,14 @@
       "prettier --write",
       "tslint --fix",
       "bash -c \"tsc --noEmit --project .\"",
+      "bash -c \"npm run depcheck:src\"",
       "git add"
     ],
     "example/**/*.ts?(x)": [
       "prettier --write",
       "tslint --fix",
       "bash -c \"tsc --project example\"",
+      "bash -c \"npm run depcheck:example\"",
       "git add"
     ]
   }
