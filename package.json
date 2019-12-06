@@ -1,12 +1,17 @@
 {
+  "name": "@cs125/google-login",
   "private": "true",
-  "main": "dist/google-login.umd.js",
+  "version": "2019.12.1",
+  "main": "dist/index.cjs.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
-    "prettier": "prettier *.json src/**/*.{ts,tsx}",
-    "prettier:write": "prettier --write *.json src/**/*.{ts,tsx}",
-    "tslint": "tslint src/**/*.{ts,tsx}",
-    "tslint:fix": "tslint --fix src/**/*.{ts,tsx}"
+    "start": "rollup -c -w --no-strict",
+    "build": "rollup -c --no-strict",
+    "tsc:check": "tsc --noEmit && tsc --project example",
+    "prettier": "prettier --check *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
+    "prettier:write": "prettier --write *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
+    "tslint": "tslint --project . && tslint --project example",
+    "tslint:fix": "tslint --fix --project . && tslint --fix --project example"
   },
   "devDependencies": {
     "@types/react": "^16.9.15",
@@ -28,12 +33,15 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && lint-staged"
+      "pre-commit": "npm run tsc:check && lint-staged"
     }
   },
   "prettier": {
     "printWidth": 100,
-    "semi": false
+    "semi": false,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5"
   },
   "lint-staged": {
     "*.json": [
@@ -41,6 +49,11 @@
       "git add"
     ],
     "src/**/*.ts?(x)": [
+      "prettier --write",
+      "tslint --fix",
+      "git add"
+    ],
+    "example/**/*.ts?(x)": [
       "prettier --write",
       "tslint --fix",
       "git add"

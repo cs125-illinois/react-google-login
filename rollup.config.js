@@ -7,9 +7,9 @@ export default {
       'react': 'React',
       'react-dom': 'ReactDOM'
     },
-    format: "umd",
+    format: "cjs",
     name: "google-login",
-    file: "./dist/google-login.umd.js"
+    file: "./dist/index.cjs.js"
   },
   plugins: [typescript()],
   external: ['react', 'react-dom']
