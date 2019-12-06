@@ -5,7 +5,8 @@
   "main": "dist/index.cjs.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "start": "rollup -c -w --no-strict",
+    "start": "concurrently -n rollup,gatsby \"npm run watch\" \"cd example && npm run watch\"",
+    "watch": "rollup -c -w --no-strict",
     "build": "rollup -c --no-strict",
     "tsc:check": "tsc --noEmit && tsc --project example",
     "prettier": "prettier --check *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.9.15",
+    "concurrently": "^5.0.0",
     "depcheck": "^0.9.1",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",

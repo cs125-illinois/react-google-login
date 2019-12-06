@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
+    "watch": "nodemon && true",
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "start": "nodemon",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },
