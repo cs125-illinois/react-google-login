@@ -1,6 +1,11 @@
 {
   "files.exclude": {
     "**/.cache": true,
+    "**/.hg": false,
+    "**/.svn": false,
+    "**/*.swo": true,
+    "**/*.swp": true,
+    "**/CVS": false,
     "**/node_modules": true,
     "dist": true,
     "example/public": true
