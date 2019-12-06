@@ -35,7 +35,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run depcheck && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "prettier": {
