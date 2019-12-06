@@ -11,16 +11,16 @@
     "prettier": "prettier --check *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
     "prettier:write": "prettier --write *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
     "tslint": "tslint --project . && tslint --project example",
-    "tslint:fix": "tslint --fix --project . && tslint --fix --project example"
+    "tslint:fix": "tslint --fix --project . && tslint --fix --project example",
+    "depcheck": "depcheck --ignore-dirs example --ignores depcheck && depcheck example/ --ignore-dirs .cache --ignores gatsby-plugin-*,@types/*,typescript"
   },
   "devDependencies": {
     "@types/react": "^16.9.15",
-    "@types/react-dom": "^16.9.4",
+    "depcheck": "^0.9.1",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0",
     "rollup": "^1.27.8",
     "rollup-plugin-typescript2": "^0.25.3",
     "tslint": "^5.20.1",
@@ -33,7 +33,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run tsc:check && lint-staged"
+      "pre-commit": "npm run depcheck && npm run tsc:check && lint-staged"
     }
   },
   "prettier": {
