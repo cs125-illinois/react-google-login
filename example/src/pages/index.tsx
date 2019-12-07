@@ -1,5 +1,5 @@
-import { GoogleLoginProvider } from "@cs125/google-login"
 import React from "react"
+import { GoogleLoginProvider } from "../../../src/index"
 
 /*
 const LoginButton = withGoogleLogin(({ googleLogin }) =>
@@ -29,6 +29,6 @@ export default () => (
       client_id: "948918026196-dec5ajlum2261cat9ceqccj9aes3th2u.apps.googleusercontent.com",
     }}
   >
-    <div />
+    <div>Test</div>
   </GoogleLoginProvider>
 )

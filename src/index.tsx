@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useEffect, useState } from "react"
 import { Subtract } from "utility-types"
 
 declare global {
@@ -13,20 +13,22 @@ interface GAPI {
 }
 export interface GoogleLoginContext {
   auth: GoogleAuth | null
-  user: GoogleUser | null
   ready: boolean
-  isSignedIn: boolean
+  user: GoogleUser | null
+  isSignedIn: boolean | undefined
 }
 interface GoogleLoginProviderProps {
   children: React.ReactNode
-  library_uri: string
+  library_uri?: string
   client_config: ClientConfig
 }
-interface GoogleLoginProviderState {
+interface GoogleLoginProviderAuthState {
   auth: GoogleAuth | null
-  user: GoogleUser | null
   ready: boolean
-  isSignedIn: boolean
+}
+interface GoogleLoginProviderUserState {
+  user: GoogleUser | null
+  isSignedIn: boolean | undefined
 }
 export interface ClientConfig {
   client_id: string
@@ -101,61 +103,52 @@ const defaultContext: GoogleLoginContext = {
 }
 const GoogleLoginContext = React.createContext<GoogleLoginContext>({ ...defaultContext })
 
-export class GoogleLoginProvider extends Component<
-  GoogleLoginProviderProps,
-  GoogleLoginProviderState
-> {
-  public static defaultProps = {
-    library_uri: "https://apis.google.com/js/platform.js",
-  }
-
-  public script: HTMLScriptElement | null = null
-
-  constructor(props: GoogleLoginProviderProps) {
-    super(props)
-    this.state = { ...defaultContext }
-  }
-  public componentDidMount() {
-    this.script = document.createElement("script")
-    this.script.src = this.props.library_uri
-    this.script.async = true
-    this.script.defer = true
-    this.script.onload = this.scriptLoaded
-    document.head.appendChild(this.script)
-  }
-  public scriptLoaded = () => {
-    window.gapi.load("auth2", () => {
-      window.gapi.auth2.init(this.props.client_config).then(
-        auth => {
-          const initialUser = auth.currentUser.get()
-          this.setState({
-            auth,
-            user: initialUser,
-            ready: true,
-            isSignedIn: initialUser.isSignedIn(),
-          })
-          auth.currentUser.listen(user => {
-            this.setState({ user, isSignedIn: user.isSignedIn() })
-          })
-        },
-        err => {
-          throw err
-        }
-      )
+export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
+  children,
+  client_config,
+  library_uri = "https://apis.google.com/js/platform.js",
+}) => {
+  const [auth, setAuth] = useState<GoogleLoginProviderAuthState>({ auth: null, ready: false })
+  const [user, setUser] = useState<GoogleLoginProviderUserState>({
+    user: null,
+    isSignedIn: undefined,
+  })
+  useEffect(() => {
+    setAuth({ auth: null, ready: false })
+    setUser({ user: null, isSignedIn: false })
+    const script = Object.assign(document.createElement("script"), {
+      src: library_uri,
+      async: true,
+      defer: true,
     })
-  }
-  public componentWillUnmount() {
-    if (this.script !== null) {
-      document.head.removeChild(this.script)
+    script.onload = () => {
+      window.gapi.load("auth2", () => {
+        window.gapi.auth2.init(client_config).then(
+          newAuth => {
+            setAuth({ auth: newAuth, ready: true })
+            const initialUser = newAuth.currentUser.get()
+            setUser({ user: initialUser, isSignedIn: initialUser.isSignedIn() })
+            newAuth.currentUser.listen(newUser => {
+              setUser({ user: newUser, isSignedIn: newUser.isSignedIn() })
+            })
+          },
+          err => {
+            throw err
+          }
+        )
+      })
     }
-  }
-  public render() {
-    return (
-      <GoogleLoginContext.Provider value={{ ...this.state }}>
-        {this.props.children}
-      </GoogleLoginContext.Provider>
-    )
-  }
+    document.head.appendChild(script)
+    return () => {
+      document.head.removeChild(script)
+    }
+  }, [])
+
+  return (
+    <GoogleLoginContext.Provider value={{ ...auth, ...user }}>
+      {children}
+    </GoogleLoginContext.Provider>
+  )
 }
 
 export interface InjectedGoogleLoginProps {
