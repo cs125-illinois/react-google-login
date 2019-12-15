@@ -20,6 +20,9 @@
     "ncu:example": "cd example && ncu",
     "ncu": "npm run ncu:src && npm run ncu:example"
   },
+  "dependencies": {
+    "utility-types": "^3.10.0"
+  },
   "devDependencies": {
     "@types/react": "^16.9.15",
     "concurrently": "^5.0.0",
@@ -69,8 +72,5 @@
       "bash -c \"npm run depcheck:example\"",
       "git add"
     ]
-  },
-  "dependencies": {
-    "utility-types": "^3.10.0"
   }
 }
