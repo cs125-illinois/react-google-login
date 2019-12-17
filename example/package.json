@@ -1,32 +1,25 @@
 {
   "private": true,
   "scripts": {
-    "start": "nodemon",
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "dependencies": {
-    "gatsby": "^2.18.7",
-    "gatsby-plugin-manifest": "^2.2.31",
-    "gatsby-plugin-typescript": "^2.1.20",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "@cs125/react-google-login": "file:..",
+    "@material-ui/core": "^4.8.0",
+    "babel-polyfill": "^6.26.0",
+    "react-app-polyfill": "^1.0.5"
+  },
+  "alias": {
+    "react": "../node_modules/react"
   },
   "devDependencies": {
-    "@types/react": "^16.9.15",
+    "@babel/core": "^7.7.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
+    "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
-    "nodemon": "^2.0.1",
+    "parcel": "^1.12.4",
+    "react-dom": "^16.12.0",
     "typescript": "^3.7.3"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "gatsby-config.js",
-      "gatsby-node.js",
-      "package.json",
-      "package-lock.json"
-    ],
-    "exec": "npm run develop"
   }
 }

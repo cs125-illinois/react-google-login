@@ -1,44 +1,47 @@
 {
-  "name": "@cs125/google-login",
-  "private": "true",
+  "name": "@cs125/react-google-login",
   "version": "2019.12.1",
   "main": "dist/index.cjs.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "start": "concurrently -n gatsby,rollup --handle-input \"cd example && npx nodemon && true\" \"npm run watch\"",
-    "watch": "rollup -c -w --no-strict",
-    "build": "rollup -c --no-strict",
-    "tsc:check": "tsc --noEmit && tsc --project example",
-    "prettier": "prettier --check *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
-    "prettier:write": "prettier --write *.json example/*.json src/**/*.{ts,tsx} example/**/*.{ts,tsx}",
-    "tslint": "tslint --project . && tslint --project example",
-    "tslint:fix": "tslint --fix --project . && tslint --fix --project example",
+    "start": "concurrently -n parcel,rollup --handle-input \"cd example && npm start\" \"npm run watch\"",
+    "watch": "rollup -c -w",
+    "build": "rollup -c",
+    "check": "npm run build && npm run tsc:check && npm run prettier && npm run eslint && npm run depcheck",
+    "postinstall": "cd example && npm i",
+    "tsc:check": "tsc --noEmit && tsc --project example --noEmit",
+    "prettier": "prettier --check **/*.{js,json,ts,tsx} .*.js",
+    "prettier:write": "prettier --write **/*.{js,json,ts,tsx} .*.js",
+    "eslint": "eslint src/**/* example/index.tsx",
+    "eslint:fix": "eslint --fix src/**/* example/index.tsx",
     "depcheck:src": "depcheck --ignore-dirs example --ignores depcheck",
-    "depcheck:example": "depcheck example/ --ignore-dirs .cache --ignores gatsby-plugin-*,@types/*,typescript",
+    "depcheck:example": "depcheck example/ --ignore-dirs .cache,dist --ignores react,@types/*,typescript",
     "depcheck": "npm run depcheck:src && npm run depcheck:example",
     "ncu:src": "ncu",
     "ncu:example": "cd example && ncu",
     "ncu": "npm run ncu:src && npm run ncu:example"
   },
-  "dependencies": {
-    "utility-types": "^3.10.0"
-  },
   "devDependencies": {
-    "@types/react": "^16.9.15",
-    "concurrently": "^5.0.0",
+    "@types/react": "^16.9.16",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "concurrently": "^5.0.1",
     "depcheck": "^0.9.1",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
-    "npm-check-updates": "^3.2.2",
+    "npm-check-updates": "^4.0.1",
     "prettier": "^1.19.1",
-    "rollup": "^1.27.8",
+    "react": "^16.12.0",
+    "rollup": "^1.27.13",
     "rollup-plugin-typescript2": "^0.25.3",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.1.0",
     "typescript": "^3.7.3"
   },
   "peerDependencies": {
+    "prop-types": "^15.7.2",
     "react": ">=16"
   },
   "husky": {
@@ -47,11 +50,11 @@
     }
   },
   "prettier": {
-    "printWidth": 100,
     "semi": false,
+    "trailingComma": "es5",
     "singleQuote": false,
-    "tabWidth": 2,
-    "trailingComma": "es5"
+    "printWidth": 120,
+    "tabWidth": 2
   },
   "lint-staged": {
     "*.json": [
@@ -60,15 +63,15 @@
     ],
     "src/**/*.ts?(x)": [
       "prettier --write",
-      "tslint --fix",
+      "eslint --fix",
       "bash -c \"tsc --noEmit --project .\"",
       "bash -c \"npm run depcheck:src\"",
       "git add"
     ],
     "example/**/*.ts?(x)": [
       "prettier --write",
-      "tslint --fix",
-      "bash -c \"tsc --project example\"",
+      "eslint --fix",
+      "bash -c \"tsc --noEmit --project example\"",
       "bash -c \"npm run depcheck:example\"",
       "git add"
     ]

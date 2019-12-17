@@ -1,34 +1,70 @@
-import React, { useEffect, useState } from "react"
-import { Subtract } from "utility-types"
+import React, { useEffect, useState, useContext } from "react"
+import PropTypes from "prop-types"
 
-declare global {
-  interface Window {
-    gapi: GAPI
+export interface GoogleLoginContext extends GoogleAuthContext, GoogleUserContext {}
+const GoogleLoginContext = React.createContext<GoogleLoginContext>({
+  auth: null,
+  user: null,
+  ready: false,
+  isSignedIn: false,
+})
+
+export interface GoogleAuth {
+  then: (onInit: (auth: GoogleAuth) => void, onError: (error: Error) => void) => void
+  isSignedIn: {
+    get: () => boolean
+    listen: (callback: (isSignedIn: boolean) => void) => void
+  }
+  signIn: (options?: {
+    prompt: string
+    scope: string
+    ux_mode: string
+    redirect_uri: string
+  }) => Promise<GoogleUser> | void
+  signOut: () => Promise<void>
+  disconnect: () => void
+  grantOfflineAccess: (options: OfflineAccessOptions) => Promise<{ code: string }>
+  currentUser: {
+    get: () => GoogleUser
+    listen: (callback: (user: GoogleUser) => void) => void
   }
 }
+export interface GoogleUser {
+  getId: () => string
+  isSignedIn: () => boolean
+  getHostedDomain: () => string
+  getGrantedScopes: () => string
+  getBasicProfile: () => {
+    getId: () => string
+    getName: () => string
+    getGivenName: () => string
+    getFamilyName: () => string
+    getImageUrl: () => string
+    getEmail: () => string
+  }
+  getAuthResponse: (includeAuthorizationData?: boolean) => AuthResponse
+  reloadAuthResponse: () => Promise<AuthResponse>
+  hasGrantedScopes: (scopes: string) => boolean
+  grantOfflineAccess: (options: OfflineAccessOptions) => void
+  disconnect: () => void
+}
+export interface AuthResponse {
+  access_token: string
+  id_token: string
+  scope: string
+  expires_in: number
+  first_issued_at: number
+  expires_at: number
+}
+export interface OfflineAccessOptions {
+  prompt: string
+  scope: string
+}
 
-interface GAPI {
-  load: (library: string, callback: () => any) => void
-  auth2: Auth2
-}
-export interface GoogleLoginContext {
-  auth: GoogleAuth | null
-  ready: boolean
-  user: GoogleUser | null
-  isSignedIn: boolean | undefined
-}
-interface GoogleLoginProviderProps {
+export interface GoogleLoginProviderProps {
+  clientConfig: ClientConfig
+  libraryURI?: string
   children: React.ReactNode
-  library_uri?: string
-  client_config: ClientConfig
-}
-interface GoogleLoginProviderAuthState {
-  auth: GoogleAuth | null
-  ready: boolean
-}
-interface GoogleLoginProviderUserState {
-  user: GoogleUser | null
-  isSignedIn: boolean | undefined
 }
 export interface ClientConfig {
   client_id: string
@@ -40,90 +76,34 @@ export interface ClientConfig {
   ux_mode?: string
   redirect_uri?: string
 }
-interface GoogleAuth {
-  then: (onInit: (auth: GoogleAuth) => void, onError: (error: Error) => void) => void
-  isSignedIn: IsSignedIn
-  signIn: (options?: SignInOptions) => Promise<GoogleUser> | void
-  signOut: () => Promise<void>
-  disconnect: () => void
-  grantOfflineAccess: (options: OfflineAccessOptions) => Promise<AuthorizationCode>
-  currentUser: CurrentUser
+
+interface GoogleAuthContext {
+  auth: GoogleAuth | null
+  ready: boolean
 }
-interface IsSignedIn {
-  get: () => boolean
-  listen: (callback: (isSignedIn: boolean) => void) => void
-}
-interface SignInOptions {
-  prompt: string
-  scope: string
-  ux_mode: string
-  redirect_uri: string
-}
-interface AuthorizationCode {
-  code: string
-}
-interface CurrentUser {
-  get: () => GoogleUser
-  listen: (callback: (user: GoogleUser) => void) => void
-}
-interface GoogleUser {
-  getId: () => string
-  isSignedIn: () => boolean
-  getHostedDomain: () => string
-  getGrantedScopes: () => string
-  getBasicProfile: () => string
-  getAuthResponse: (includeAuthorizationData?: boolean) => AuthResponse
-  reloadAuthResponse: () => Promise<AuthResponse>
-  hasGrantedScopes: (scopes: string) => boolean
-  grantOfflineAccess: (options: OfflineAccessOptions) => void
-  disconnect: () => void
-}
-interface AuthResponse {
-  access_token: string
-  id_token: string
-  scope: string
-  expires_in: number
-  first_issued_at: number
-  expires_at: number
-}
-interface OfflineAccessOptions {
-  prompt: string
-  scope: string
-}
-interface Auth2 {
-  init: (params: ClientConfig) => GoogleAuth
-  getAuthInstance: () => GoogleAuth
+export interface GoogleUserContext {
+  user: GoogleUser | null
+  isSignedIn: boolean | undefined
 }
 
-const defaultContext: GoogleLoginContext = {
-  auth: null,
-  user: null,
-  ready: false,
-  isSignedIn: false,
-}
-const GoogleLoginContext = React.createContext<GoogleLoginContext>({ ...defaultContext })
-
-export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
-  children,
-  client_config,
-  library_uri = "https://apis.google.com/js/platform.js",
-}) => {
-  const [auth, setAuth] = useState<GoogleLoginProviderAuthState>({ auth: null, ready: false })
-  const [user, setUser] = useState<GoogleLoginProviderUserState>({
+export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ children, clientConfig, libraryURI }) => {
+  const [auth, setAuth] = useState<GoogleAuthContext>({ auth: null, ready: false })
+  const [user, setUser] = useState<GoogleUserContext>({
     user: null,
     isSignedIn: undefined,
   })
+
   useEffect(() => {
     setAuth({ auth: null, ready: false })
     setUser({ user: null, isSignedIn: false })
     const script = Object.assign(document.createElement("script"), {
-      src: library_uri,
+      src: libraryURI,
       async: true,
       defer: true,
     })
-    script.onload = () => {
+    script.onload = (): void => {
       window.gapi.load("auth2", () => {
-        window.gapi.auth2.init(client_config).then(
+        window.gapi.auth2.init(clientConfig).then(
           newAuth => {
             setAuth({ auth: newAuth, ready: true })
             const initialUser = newAuth.currentUser.get()
@@ -139,31 +119,99 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
       })
     }
     document.head.appendChild(script)
-    return () => {
+    return (): void => {
       document.head.removeChild(script)
     }
   }, [])
 
-  return (
-    <GoogleLoginContext.Provider value={{ ...auth, ...user }}>
-      {children}
-    </GoogleLoginContext.Provider>
-  )
+  return <GoogleLoginContext.Provider value={{ ...auth, ...user }}>{children}</GoogleLoginContext.Provider>
 }
 
-export interface InjectedGoogleLoginProps {
-  googleLogin: GoogleLoginContext
+GoogleLoginProvider.propTypes = {
+  clientConfig: PropTypes.exact({
+    client_id: PropTypes.string.isRequired,
+    cookie_policy: PropTypes.string,
+    scope: PropTypes.string,
+    fetch_basic_profile: PropTypes.bool,
+    hosted_domain: PropTypes.string,
+    openid_realm: PropTypes.string,
+    ux_mode: PropTypes.string,
+    redirect_uri: PropTypes.string,
+  }).isRequired,
+  libraryURI: PropTypes.string,
+  children: PropTypes.node.isRequired,
+}
+GoogleLoginProvider.defaultProps = {
+  libraryURI: "https://apis.google.com/js/platform.js",
 }
 
-export const withGoogleLogin = <P extends InjectedGoogleLoginProps>(
-  WrappedComponent: React.ComponentType<P>
-) =>
-  class WithGoogleLogin extends React.Component<Subtract<P, InjectedGoogleLoginProps>> {
-    public render() {
-      return (
-        <GoogleLoginContext.Consumer>
-          {value => <WrappedComponent {...(this.props as P)} googleLogin={value} />}
-        </GoogleLoginContext.Consumer>
-      )
+declare global {
+  interface Window {
+    gapi: {
+      load: (library: string, callback: () => void) => void
+      auth2: {
+        init: (params: ClientConfig) => GoogleAuth
+        getAuthInstance: () => GoogleAuth
+      }
     }
   }
+}
+
+export const withGoogleLogin = (): GoogleLoginContext => {
+  return useContext(GoogleLoginContext)
+}
+interface WithGoogleLoginProps {
+  children: (withGoogleLogin: GoogleLoginContext) => JSX.Element | null
+}
+export const WithGoogleLogin: React.FC<WithGoogleLoginProps> = ({ children }) => {
+  return children(withGoogleLogin())
+}
+WithGoogleLogin.propTypes = {
+  children: PropTypes.func.isRequired,
+}
+
+export const withGoogleUser = (): GoogleUserContext => {
+  const { user, isSignedIn } = useContext(GoogleLoginContext)
+  return { user, isSignedIn }
+}
+interface WithGoogleUserProps {
+  children: (withGoogleUser: GoogleUserContext) => JSX.Element | null
+}
+export const WithGoogleUser: React.FC<WithGoogleUserProps> = ({ children }) => {
+  return children(withGoogleUser())
+}
+WithGoogleUser.propTypes = {
+  children: PropTypes.func.isRequired,
+}
+
+export interface BasicProfile {
+  ID: string
+  name: string
+  givenName: string
+  familyName: string
+  imageUrl: string
+  email: string
+}
+export const getProfile = (user: GoogleUser): BasicProfile => {
+  const profile = user.getBasicProfile()
+  return {
+    ID: profile.getId(),
+    name: profile.getName(),
+    givenName: profile.getGivenName(),
+    familyName: profile.getFamilyName(),
+    imageUrl: profile.getImageUrl(),
+    email: profile.getEmail(),
+  }
+}
+
+export interface GoogleAuthTokens {
+  id_token: string
+  access_token: string
+}
+export const getTokens = (user: GoogleUser): GoogleAuthTokens => {
+  const authResponse = user.getAuthResponse()
+  return {
+    id_token: authResponse.id_token,
+    access_token: authResponse.access_token,
+  }
+}

@@ -4,9 +4,8 @@ export default {
   input: "./src/index.tsx",
   output: {
     format: "cjs",
-    name: "google-login",
-    file: "./dist/index.cjs.js"
+    file: "./dist/index.cjs.js",
   },
   plugins: [typescript()],
-  external: ['react', 'react-dom']
+  external: ["react", "prop-types"],
 }
