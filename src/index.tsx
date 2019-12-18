@@ -68,13 +68,13 @@ export interface GoogleLoginProviderProps {
 }
 export interface ClientConfig {
   client_id: string
-  cookie_policy?: string
-  scope?: string
-  fetch_basic_profile?: boolean
-  hosted_domain?: string
-  openid_realm?: string
-  ux_mode?: string
-  redirect_uri?: string
+  cookie_policy?: string | null
+  scope?: string | null
+  fetch_basic_profile?: boolean | null
+  hosted_domain?: string | null
+  openid_realm?: string | null
+  ux_mode?: string | null
+  redirect_uri?: string | null
 }
 
 interface GoogleAuthContext {
