@@ -86,7 +86,7 @@ export interface GoogleUserContext {
   isSignedIn: boolean | undefined
 }
 
-export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ children, clientConfig, libraryURI }) => {
+export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ clientConfig, libraryURI, children }) => {
   const [auth, setAuth] = useState<GoogleAuthContext>({ auth: null, ready: false })
   const [user, setUser] = useState<GoogleUserContext>({
     user: null,
