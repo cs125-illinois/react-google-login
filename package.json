@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently -n parcel,rollup --handle-input \"cd example && npm start\" \"npm run watch\"",
     "watch": "rollup -c -w",
-    "build": "rollup -c",
+    "build": "rm -rf dist && rollup -c",
     "check": "npm run build && npm run tsc:check && npm run prettier && npm run eslint && npm run depcheck",
     "postinstall": "cd example && npm i",
     "tsc:check": "tsc --noEmit && tsc --project example --noEmit",
