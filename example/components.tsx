@@ -1,7 +1,18 @@
 import React, { useState } from "react"
-import { Button, Icon } from "semantic-ui-react"
+import { Button, Icon, Item } from "semantic-ui-react"
 
-import { withGoogleLogin, WithGoogleLogin, GoogleLoginContext, GoogleAuth } from "@cs125/react-google-login"
+import {
+  withGoogleLogin,
+  WithGoogleLogin,
+  GoogleLoginContext,
+  GoogleAuth,
+  WithGoogleUser,
+  getProfile,
+  getTokens,
+  withGoogleUser,
+  GoogleUserContext,
+} from "@cs125/react-google-login"
+import styled from "styled-components"
 
 const loginOrOut = (
   { auth, isSignedIn }: { auth: GoogleAuth | null; isSignedIn: boolean | undefined },
@@ -18,7 +29,7 @@ const loginOrOut = (
   }
 }
 
-export const ContextLoginButton: React.FC = () => {
+export const LoginButton: React.FC = () => {
   const [busy, setBusy] = useState<boolean>(false)
 
   const { ready, auth, isSignedIn } = withGoogleLogin()
@@ -34,7 +45,7 @@ export const ContextLoginButton: React.FC = () => {
   )
 }
 
-export const HOCLoginButton: React.FC = () => {
+export const LoginButtonHOC: React.FC = () => {
   return (
     <WithGoogleLogin>
       {(googleLoginContext: GoogleLoginContext): JSX.Element => {
@@ -48,3 +59,42 @@ export const HOCLoginButton: React.FC = () => {
     </WithGoogleLogin>
   )
 }
+
+const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: { googleUser: GoogleUserContext }) => {
+  const { user, isSignedIn } = googleUser
+  if (!isSignedIn || !user) {
+    return null
+  }
+  const { name, email, imageUrl } = getProfile(user)
+  // Replace hyphens with non-breaking hyphens
+  const id_token = getTokens(user).id_token.replace(/-/g, "‑")
+  return (
+    <Item.Group>
+      <Item>
+        <Item.Image size="small" src={imageUrl} />
+        <Item.Content>
+          <Item.Header>{name}</Item.Header>
+          <Item.Meta>{email}</Item.Meta>
+          <Item.Description>
+            <pre style={{ whiteSpace: "pre-wrap", hyphens: "manual", overflowWrap: "break-word" }}>{id_token}</pre>
+          </Item.Description>
+        </Item.Content>
+      </Item>
+    </Item.Group>
+  )
+}
+
+export const WithUser: React.FC = () => <ShowUser googleUser={withGoogleUser()} />
+export const WithUserHOC: React.FC = () => {
+  return (
+    <WithGoogleUser>
+      {(googleUser): JSX.Element | null => {
+        return <ShowUser googleUser={googleUser} />
+      }}
+    </WithGoogleUser>
+  )
+}
+
+export const Lead = styled.p`
+  font-size: 1.2em;
+`

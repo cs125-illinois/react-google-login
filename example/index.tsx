@@ -13,7 +13,7 @@ import Content from "./index.mdx"
 
 import SyntaxHighlighter from "react-syntax-highlighter"
 
-import { GoogleLoginProvider, WithGoogleUser, getProfile, getTokens } from "@cs125/react-google-login"
+import { GoogleLoginProvider } from "@cs125/react-google-login"
 
 const PaddedContainer = styled(Container)({
   paddingTop: 16,
@@ -31,23 +31,6 @@ const App: React.SFC = () => (
       <MDXProvider components={components}>
         <Content />
       </MDXProvider>
-      <WithGoogleUser>
-        {({ user, isSignedIn }): JSX.Element | null => {
-          if (!isSignedIn || !user) {
-            return null
-          }
-          const { name, email, imageUrl } = getProfile(user)
-          const { id_token } = getTokens(user)
-          return (
-            <div>
-              <h1>{name}</h1>
-              <h2>{email}</h2>
-              <img src={imageUrl} />
-              <pre style={{ whiteSpace: "pre-wrap", hyphens: "manual", overflowWrap: "break-word" }}>{id_token}</pre>
-            </div>
-          )
-        }}
-      </WithGoogleUser>
     </PaddedContainer>
   </GoogleLoginProvider>
 )
