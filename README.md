@@ -10,4 +10,6 @@ npm i @cs125/react-google-login
 
 ## Use
 
-## Example
+## Demo
+
+Visit the demo [here](https://cs125-illinois.github.io/google-login/).
