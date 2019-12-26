@@ -10,8 +10,8 @@
     "check": "npm run build && npm run tsc:check && npm run prettier && npm run eslint && npm run depcheck",
     "postinstall": "cd example && npm i",
     "tsc:check": "tsc --noEmit && tsc --project example --noEmit",
-    "prettier": "prettier --check **/*.{js,json,ts,tsx} .*.js",
-    "prettier:write": "prettier --write **/*.{js,json,ts,tsx} .*.js",
+    "prettier": "prettier --check **/*.{js,json,ts,tsx,md} .*.js",
+    "prettier:write": "prettier --write **/*.{js,json,ts,tsx,md} .*.js",
     "eslint": "eslint src/**/* example/index.tsx",
     "eslint:fix": "eslint --fix src/**/* example/index.tsx",
     "depcheck:src": "depcheck --ignore-dirs example --ignores depcheck",
@@ -58,6 +58,10 @@
   },
   "lint-staged": {
     "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.md": [
       "prettier --write",
       "git add"
     ],
