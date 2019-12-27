@@ -2,7 +2,7 @@ declare module "*.mdx" {
   let MDXComponent: (props: any) => JSX.Element // eslint-disable-line @typescript-eslint/no-explicit-any
   export default MDXComponent
 }
-declare module "react-syntax-highlighter" {
+declare module "react-syntax-highlighter/dist/esm/default-highlight" {
   class SyntaxHighlighter extends React.Component<{ children: React.ReactNode }> {}
   export default SyntaxHighlighter
 }

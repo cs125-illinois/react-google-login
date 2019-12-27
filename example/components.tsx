@@ -95,6 +95,6 @@ export const WithUserHOC: React.FC = () => {
   )
 }
 
-export const Lead = styled.p`
+export const Lead = styled.div`
   font-size: 1.2em;
 `

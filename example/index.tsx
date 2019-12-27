@@ -11,7 +11,7 @@ import styled from "styled-components"
 import { MDXProvider } from "@mdx-js/react"
 import Content from "./index.mdx"
 
-import SyntaxHighlighter from "react-syntax-highlighter"
+import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight"
 
 import { GoogleLoginProvider } from "@cs125/react-google-login"
 
