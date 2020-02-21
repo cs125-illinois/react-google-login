@@ -5,24 +5,23 @@
     "build": "parcel build index.html --out-dir ../docs --public-url='/react-google-login'"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
     "@cs125/react-google-login": "file:..",
-    "@mdx-js/parcel-plugin-mdx": "^1.5.3",
-    "@mdx-js/react": "^1.0.0-rc.5",
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
-    "@types/styled-components": "^4.4.1",
+    "@mdx-js/parcel-plugin-mdx": "^1.5.7",
+    "@mdx-js/react": "^1.5.7",
+    "@types/react": "^16.9.22",
+    "@types/react-dom": "^16.9.5",
+    "@types/styled-components": "^5.0.0",
     "babel-polyfill": "^6.26.0",
     "parcel": "^1.12.4",
-    "react-app-polyfill": "^1.0.5",
+    "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.12.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
-    "styled-components": "^4.4.1",
-    "typescript": "^3.7.3"
+    "styled-components": "^5.0.1",
+    "typescript": "^3.8.2"
   },
   "alias": {
     "react": "../node_modules/react"
