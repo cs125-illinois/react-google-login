@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html --out-dir ../docs --public-url='/react-google-login'"
+    "build": "rm -rf ../docs && parcel build index.html --out-dir ../docs --public-url='/react-google-login'"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
