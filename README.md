@@ -1,5 +1,8 @@
 # @cs125/react-google-login
 
+[![npm version](https://badge.fury.io/js/%40cs125%2Freact-google-login.svg)](https://badge.fury.io/js/%40cs125%2Freact-google-login)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 React TypeScript support for [Google Sign-in](https://developers.google.com/identity/sign-in/web/sign-in).
 
 ## Install

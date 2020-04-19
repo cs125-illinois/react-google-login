@@ -7,6 +7,13 @@ export default {
     file: "./dist/index.cjs.js",
     sourcemap: true,
   },
-  plugins: [typescript()],
+  plugins: [
+    typescript({
+      tsconfigDefaults: {
+        include: ["./src/**/*"],
+        compilerOptions: { declaration: true },
+      },
+    }),
+  ],
   external: ["react", "prop-types"],
 }
