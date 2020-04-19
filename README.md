@@ -13,19 +13,7 @@ npm i @cs125/react-google-login
 
 ## Use
 
-Wrap your app using the `GoogleLoginProvider` context provider:
-
-```jsx
-<GoogleLoginProvider clientConfig={{
-  client_id: "YOUR_CLIENT_ID.apps.googleusercontent.com",
-}} >
-  <RestOfApp ... />
-</GoogleLoginProvider>
-```
-
-Then see
-[`examples/components.tsx`](https://github.com/cs125-illinois/react-google-login/blob/master/example/components.tsx)
-for examples of how to use the context provided by the `GoogleLoginProvider`.
+For examples of how to use `@cs125/react-google-login` please see the [examples in the repository](https://github.com/cs125-illinois/react-google-login/tree/master/example).
 
 ## Demo
 
