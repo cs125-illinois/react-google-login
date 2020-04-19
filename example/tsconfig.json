@@ -13,6 +13,10 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "typeRoots": ["node_modules/@types", "./typings.d.ts"]
+    "typeRoots": ["node_modules/@types", "./typings.d.ts"],
+    "baseUrl": ".",
+    "paths": {
+      "@cs125/react-google-login": [".."]
+    }
   }
 }

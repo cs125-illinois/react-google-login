@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import PropTypes from "prop-types"
+
 import { Button, Icon, Item } from "semantic-ui-react"
 
 import {
@@ -12,7 +14,6 @@ import {
   withGoogleUser,
   GoogleUserContext,
 } from "@cs125/react-google-login"
-import styled from "styled-components"
 
 const loginOrOut = (
   { auth, isSignedIn }: { auth: GoogleAuth | null; isSignedIn: boolean | undefined },
@@ -95,6 +96,9 @@ export const WithUserHOC: React.FC = () => {
   )
 }
 
-export const Lead = styled.div`
-  font-size: 1.2em;
-`
+export const Lead: React.FC = ({ children }) => {
+  return <div style={{ fontSize: "1.2rem" }}>{children}</div>
+}
+Lead.propTypes = {
+  children: PropTypes.node.isRequired,
+}

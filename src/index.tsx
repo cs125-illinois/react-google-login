@@ -77,13 +77,17 @@ export interface ClientConfig {
   redirect_uri?: string | null
 }
 
-interface GoogleAuthContext {
+export interface GoogleAuthContext {
   auth: GoogleAuth | null
   ready: boolean
 }
 export interface GoogleUserContext {
   user: GoogleUser | null
   isSignedIn: boolean | undefined
+}
+export interface GoogleTokensContext {
+  idToken: string | undefined
+  accessToken: string | undefined
 }
 
 export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ clientConfig, libraryURI, children }) => {
@@ -104,15 +108,15 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
     script.onload = (): void => {
       window.gapi.load("auth2", () => {
         window.gapi.auth2.init(clientConfig).then(
-          newAuth => {
+          (newAuth) => {
             setAuth({ auth: newAuth, ready: true })
             const initialUser = newAuth.currentUser.get()
             setUser({ user: initialUser, isSignedIn: initialUser.isSignedIn() })
-            newAuth.currentUser.listen(newUser => {
+            newAuth.currentUser.listen((newUser) => {
               setUser({ user: newUser, isSignedIn: newUser.isSignedIn() })
             })
           },
-          err => {
+          (err) => {
             throw err
           }
         )
@@ -161,7 +165,7 @@ export const withGoogleLogin = (): GoogleLoginContext => {
   return useContext(GoogleLoginContext)
 }
 interface WithGoogleLoginProps {
-  children: (withGoogleLogin: GoogleLoginContext) => JSX.Element | null
+  children: (googleLogin: GoogleLoginContext) => JSX.Element | null
 }
 export const WithGoogleLogin: React.FC<WithGoogleLoginProps> = ({ children }) => {
   return children(withGoogleLogin())
@@ -175,7 +179,7 @@ export const withGoogleUser = (): GoogleUserContext => {
   return { user, isSignedIn }
 }
 interface WithGoogleUserProps {
-  children: (withGoogleUser: GoogleUserContext) => JSX.Element | null
+  children: (googleUser: GoogleUserContext) => JSX.Element | null
 }
 export const WithGoogleUser: React.FC<WithGoogleUserProps> = ({ children }) => {
   return children(withGoogleUser())
@@ -214,4 +218,22 @@ export const getTokens = (user: GoogleUser): GoogleAuthTokens => {
     id_token: authResponse.id_token,
     access_token: authResponse.access_token,
   }
+}
+
+export const withGoogleTokens = (): GoogleTokensContext => {
+  const { user } = useContext(GoogleLoginContext)
+  if (!user) {
+    return { idToken: undefined, accessToken: undefined }
+  }
+  const { id_token: idToken, access_token: accessToken } = getTokens(user)
+  return { idToken, accessToken }
+}
+interface WithGoogleTokensProps {
+  children: (googleTokens: GoogleTokensContext) => JSX.Element | null
+}
+export const WithGoogleTokens: React.FC<WithGoogleTokensProps> = ({ children }) => {
+  return children(withGoogleTokens())
+}
+WithGoogleTokens.propTypes = {
+  children: PropTypes.func.isRequired,
 }
