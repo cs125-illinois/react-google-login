@@ -24,9 +24,6 @@
     "watch": "rollup -c -w"
   },
   "types": "dist/index.d.ts",
-  "dependencies": {
-    "babel-polyfill": "^6.26.0"
-  },
   "peerDependencies": {
     "prop-types": ">=15",
     "react": ">=16"
@@ -42,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^2.28.0",
     "@typescript-eslint/parser": "^2.28.0",
     "babel-eslint": "^10.1.0",
+    "babel-polyfill": "^6.26.0",
     "concurrently": "^5.1.0",
     "depcheck": "^0.9.2",
     "eslint": "^6.8.0",
