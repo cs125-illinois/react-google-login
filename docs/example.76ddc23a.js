@@ -63251,4 +63251,4 @@ parcelRequire = (function (e, r, t, n) {
   ["zo2T"],
   null
 )
-//# sourceMappingURL=/react-google-login/example.79c05a73.js.map
+//# sourceMappingURL=/react-google-login/example.76ddc23a.js.map
