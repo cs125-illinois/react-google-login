@@ -237,3 +237,16 @@ export const WithGoogleTokens: React.FC<WithGoogleTokensProps> = ({ children }) 
 WithGoogleTokens.propTypes = {
   children: PropTypes.func.isRequired,
 }
+
+export const withGoogleEmail = (): string | undefined => {
+  return useContext(GoogleLoginContext).user?.getBasicProfile().getEmail()
+}
+interface WithGoogleEmailProps {
+  children: (googleEmail: string | undefined) => JSX.Element | null
+}
+export const WithGoogleEmail: React.FC<WithGoogleEmailProps> = ({ children }) => {
+  return children(withGoogleEmail())
+}
+WithGoogleEmail.propTypes = {
+  children: PropTypes.func.isRequired,
+}
