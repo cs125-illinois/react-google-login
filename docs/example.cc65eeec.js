@@ -51425,78 +51425,78 @@ parcelRequire = (function (e, r, t, n) {
     H2CV: [
       function (require, module, exports) {
         "use strict"
-        function e(e, t) {
-          var r = Object.keys(e)
+        function e(e, r) {
+          var t = Object.keys(e)
           if (Object.getOwnPropertySymbols) {
             var n = Object.getOwnPropertySymbols(e)
-            t &&
-              (n = n.filter(function (t) {
-                return Object.getOwnPropertyDescriptor(e, t).enumerable
+            r &&
+              (n = n.filter(function (r) {
+                return Object.getOwnPropertyDescriptor(e, r).enumerable
               })),
-              r.push.apply(r, n)
+              t.push.apply(t, n)
           }
-          return r
+          return t
         }
-        function t(t) {
+        function r(r) {
           for (var n = 1; n < arguments.length; n++) {
             var o = null != arguments[n] ? arguments[n] : {}
             n % 2
               ? e(Object(o), !0).forEach(function (e) {
-                  r(t, e, o[e])
+                  t(r, e, o[e])
                 })
               : Object.getOwnPropertyDescriptors
-              ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(o))
+              ? Object.defineProperties(r, Object.getOwnPropertyDescriptors(o))
               : e(Object(o)).forEach(function (e) {
-                  Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(o, e))
+                  Object.defineProperty(r, e, Object.getOwnPropertyDescriptor(o, e))
                 })
           }
-          return t
+          return r
         }
-        function r(e, t, r) {
+        function t(e, r, t) {
           return (
-            t in e
-              ? Object.defineProperty(e, t, { value: r, enumerable: !0, configurable: !0, writable: !0 })
-              : (e[t] = r),
+            r in e
+              ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 })
+              : (e[r] = t),
             e
           )
         }
-        function n(e, t) {
-          return s(e) || c(e, t) || i(e, t) || o()
+        function n(e, r) {
+          return s(e) || c(e, r) || i(e, r) || o()
         }
         function o() {
           throw new TypeError(
             "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
           )
         }
-        function i(e, t) {
+        function i(e, r) {
           if (e) {
-            if ("string" == typeof e) return u(e, t)
-            var r = Object.prototype.toString.call(e).slice(8, -1)
+            if ("string" == typeof e) return u(e, r)
+            var t = Object.prototype.toString.call(e).slice(8, -1)
             return (
-              "Object" === r && e.constructor && (r = e.constructor.name),
-              "Map" === r || "Set" === r
-                ? Array.from(r)
-                : "Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)
-                ? u(e, t)
+              "Object" === t && e.constructor && (t = e.constructor.name),
+              "Map" === t || "Set" === t
+                ? Array.from(t)
+                : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)
+                ? u(e, r)
                 : void 0
             )
           }
         }
-        function u(e, t) {
-          ;(null == t || t > e.length) && (t = e.length)
-          for (var r = 0, n = new Array(t); r < t; r++) n[r] = e[r]
+        function u(e, r) {
+          ;(null == r || r > e.length) && (r = e.length)
+          for (var t = 0, n = new Array(r); t < r; t++) n[t] = e[t]
           return n
         }
-        function c(e, t) {
+        function c(e, r) {
           if ("undefined" != typeof Symbol && Symbol.iterator in Object(e)) {
-            var r = [],
+            var t = [],
               n = !0,
               o = !1,
               i = void 0
             try {
               for (
                 var u, c = e[Symbol.iterator]();
-                !(n = (u = c.next()).done) && (r.push(u.value), !t || r.length !== t);
+                !(n = (u = c.next()).done) && (t.push(u.value), !r || t.length !== r);
                 n = !0
               );
             } catch (s) {
@@ -51508,7 +51508,7 @@ parcelRequire = (function (e, r, t, n) {
                 if (o) throw i
               }
             }
-            return r
+            return t
           }
         }
         function s(e) {
@@ -51535,7 +51535,7 @@ parcelRequire = (function (e, r, t, n) {
           p = l(require("prop-types")),
           g = d.createContext({ auth: null, user: null, ready: !1, isSignedIn: !1 }),
           y = function (e) {
-            var r = e.clientConfig,
+            var t = e.clientConfig,
               o = e.libraryURI,
               i = e.children,
               u = n(f.useState({ auth: null, ready: !1 }), 2),
@@ -51551,11 +51551,11 @@ parcelRequire = (function (e, r, t, n) {
                 return (
                   (e.onload = function () {
                     window.gapi.load("auth2", function () {
-                      window.gapi.auth2.init(r).then(
+                      window.gapi.auth2.init(t).then(
                         function (e) {
                           s({ auth: e, ready: !0 })
-                          var t = e.currentUser.get()
-                          p({ user: t, isSignedIn: t.isSignedIn() }),
+                          var r = e.currentUser.get()
+                          p({ user: r, isSignedIn: r.isSignedIn() }),
                             e.currentUser.listen(function (e) {
                               p({ user: e, isSignedIn: e.isSignedIn() })
                             })
@@ -51572,7 +51572,7 @@ parcelRequire = (function (e, r, t, n) {
                   }
                 )
               }, []),
-              d.createElement(g.Provider, { value: t({}, c, {}, l) }, i)
+              d.createElement(g.Provider, { value: r({}, c, {}, l) }, i)
             )
           }
         ;(y.propTypes = {
@@ -51593,52 +51593,62 @@ parcelRequire = (function (e, r, t, n) {
         var m = function () {
             return f.useContext(g)
           },
-          b = function (e) {
+          h = function (e) {
             return (0, e.children)(m())
           }
-        b.propTypes = { children: p.func.isRequired }
-        var h = function () {
+        h.propTypes = { children: p.func.isRequired }
+        var b = function () {
             var e = f.useContext(g)
             return { user: e.user, isSignedIn: e.isSignedIn }
           },
           v = function (e) {
-            return (0, e.children)(h())
+            return (0, e.children)(b())
           }
         v.propTypes = { children: p.func.isRequired }
         var S = function (e) {
-            var t = e.getBasicProfile()
+            var r = e.getBasicProfile()
             return {
-              ID: t.getId(),
-              name: t.getName(),
-              givenName: t.getGivenName(),
-              familyName: t.getFamilyName(),
-              imageUrl: t.getImageUrl(),
-              email: t.getEmail(),
+              ID: r.getId(),
+              name: r.getName(),
+              givenName: r.getGivenName(),
+              familyName: r.getFamilyName(),
+              imageUrl: r.getImageUrl(),
+              email: r.getEmail(),
             }
           },
           O = function (e) {
-            var t = e.getAuthResponse()
-            return { id_token: t.id_token, access_token: t.access_token }
+            var r = e.getAuthResponse()
+            return { id_token: r.id_token, access_token: r.access_token }
           },
           j = function () {
             var e = f.useContext(g).user
             if (!e) return { idToken: void 0, accessToken: void 0 }
-            var t = O(e)
-            return { idToken: t.id_token, accessToken: t.access_token }
+            var r = O(e)
+            return { idToken: r.id_token, accessToken: r.access_token }
           },
           w = function (e) {
             return (0, e.children)(j())
           }
-        ;(w.propTypes = { children: p.func.isRequired }),
+        w.propTypes = { children: p.func.isRequired }
+        var x = function () {
+            var e
+            return null === (e = f.useContext(g).user) || void 0 === e ? void 0 : e.getBasicProfile().getEmail()
+          },
+          I = function (e) {
+            return (0, e.children)(x())
+          }
+        ;(I.propTypes = { children: p.func.isRequired }),
           (exports.GoogleLoginProvider = y),
-          (exports.WithGoogleLogin = b),
+          (exports.WithGoogleEmail = I),
+          (exports.WithGoogleLogin = h),
           (exports.WithGoogleTokens = w),
           (exports.WithGoogleUser = v),
           (exports.getProfile = S),
           (exports.getTokens = O),
+          (exports.withGoogleEmail = x),
           (exports.withGoogleLogin = m),
           (exports.withGoogleTokens = j),
-          (exports.withGoogleUser = h)
+          (exports.withGoogleUser = b)
       },
       { react: "n8MK", "prop-types": "D9Od" },
     ],
@@ -63251,4 +63261,4 @@ parcelRequire = (function (e, r, t, n) {
   ["zo2T"],
   null
 )
-//# sourceMappingURL=/react-google-login/example.76ddc23a.js.map
+//# sourceMappingURL=/react-google-login/example.cc65eeec.js.map
