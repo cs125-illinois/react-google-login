@@ -6,6 +6,7 @@ const GoogleLoginContext = React.createContext<GoogleLoginContext>({
   auth: null,
   user: null,
   ready: false,
+  err: undefined,
   isSignedIn: false,
 })
 
@@ -80,6 +81,7 @@ export interface ClientConfig {
 export interface GoogleAuthContext {
   auth: GoogleAuth | null
   ready: boolean
+  err: Error | undefined
 }
 export interface GoogleUserContext {
   user: GoogleUser | null
@@ -91,15 +93,13 @@ export interface GoogleTokensContext {
 }
 
 export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ clientConfig, libraryURI, children }) => {
-  const [auth, setAuth] = useState<GoogleAuthContext>({ auth: null, ready: false })
+  const [auth, setAuth] = useState<GoogleAuthContext>({ auth: null, ready: false, err: undefined })
   const [user, setUser] = useState<GoogleUserContext>({
     user: null,
     isSignedIn: undefined,
   })
 
   useEffect(() => {
-    setAuth({ auth: null, ready: false })
-    setUser({ user: null, isSignedIn: false })
     const script = Object.assign(document.createElement("script"), {
       src: libraryURI,
       async: true,
@@ -109,7 +109,7 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
       window.gapi.load("auth2", () => {
         window.gapi.auth2.init(clientConfig).then(
           (newAuth) => {
-            setAuth({ auth: newAuth, ready: true })
+            setAuth({ auth: newAuth, ready: true, err: undefined })
             const initialUser = newAuth.currentUser.get()
             setUser({ user: initialUser, isSignedIn: initialUser.isSignedIn() })
             newAuth.currentUser.listen((newUser) => {
@@ -117,6 +117,7 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
             })
           },
           (err) => {
+            setAuth({ auth: null, ready: false, err })
             throw err
           }
         )
