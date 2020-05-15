@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/react-google-login/:path", "destination": "/:path" }
+  ]
+}
