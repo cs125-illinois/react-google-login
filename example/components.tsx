@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 
-import { Button, Icon, Item } from "semantic-ui-react"
+import Button from "semantic-ui-react/dist/commonjs/elements/Button"
+import Icon from "semantic-ui-react/dist/commonjs/elements/Icon"
+import Item from "semantic-ui-react/dist/commonjs/views/Item"
 
 import {
   withGoogleLogin,
@@ -72,7 +74,7 @@ const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: {
   return (
     <Item.Group>
       <Item>
-        <Item.Image size="small" src={imageUrl} />
+        <Item.Image size="small" src={imageUrl} alt="Your Picture" />
         <Item.Content>
           <Item.Header>{name}</Item.Header>
           <Item.Meta>{email}</Item.Meta>

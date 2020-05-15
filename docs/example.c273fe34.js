@@ -936,15 +936,15 @@ require("../../modules/core.regexp.escape"),module.exports=require("../../module
 var global = arguments[3];
 
 var e=arguments[3];if(require("core-js/shim"),require("regenerator-runtime/runtime"),require("core-js/fn/regexp/escape"),e._babelPolyfill)throw new Error("only one instance of babel-polyfill is allowed");e._babelPolyfill=!0;var r="defineProperty";function i(e,i,n){e[i]||Object[r](e,i,{writable:!0,configurable:!0,value:n})}i(String.prototype,"padLeft","".padStart),i(String.prototype,"padRight","".padEnd),"pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function(e){[][e]&&i(Array,e,Function.call.bind([][e]))});
-},{"core-js/shim":"w2bQ","regenerator-runtime/runtime":"pGZN","core-js/fn/regexp/escape":"aLB7"}],"CSru":[function(require,module,exports) {
+},{"core-js/shim":"w2bQ","regenerator-runtime/runtime":"pGZN","core-js/fn/regexp/escape":"aLB7"}],"FheM":[function(require,module,exports) {
 var t=null;function e(){return t||(t=n()),t}function n(){try{throw new Error}catch(e){var t=(""+e.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);if(t)return r(t[0])}return"/"}function r(t){return(""+t).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/,"$1")+"/"}exports.getBundleURL=e,exports.getBaseURL=r;
-},{}],"Cm3W":[function(require,module,exports) {
+},{}],"TUK3":[function(require,module,exports) {
 var r=require("./bundle-url").getBundleURL;function e(r){Array.isArray(r)||(r=[r]);var e=r[r.length-1];try{return Promise.resolve(require(e))}catch(n){if("MODULE_NOT_FOUND"===n.code)return new s(function(n,i){t(r.slice(0,-1)).then(function(){return require(e)}).then(n,i)});throw n}}function t(r){return Promise.all(r.map(u))}var n={};function i(r,e){n[r]=e}module.exports=exports=e,exports.load=t,exports.register=i;var o={};function u(e){var t;if(Array.isArray(e)&&(t=e[1],e=e[0]),o[e])return o[e];var i=(e.substring(e.lastIndexOf(".")+1,e.length)||e).toLowerCase(),u=n[i];return u?o[e]=u(r()+e).then(function(r){return r&&module.bundle.register(t,r),r}).catch(function(r){throw delete o[e],r}):void 0}function s(r){this.executor=r,this.promise=null}s.prototype.then=function(r,e){return null===this.promise&&(this.promise=new Promise(this.executor)),this.promise.then(r,e)},s.prototype.catch=function(r){return null===this.promise&&(this.promise=new Promise(this.executor)),this.promise.catch(r)};
-},{"./bundle-url":"CSru"}],"zo2T":[function(require,module,exports) {
+},{"./bundle-url":"FheM"}],"zo2T":[function(require,module,exports) {
 "use strict";var e=t(require("react")),r=t(require("react-dom"));function t(e){return e&&e.__esModule?e:{default:e}}require("react-app-polyfill/ie11"),require("babel-polyfill"),require("_bundle_loader")(require.resolve("./App")).then(function(t){var l=t.default;r.default.render(e.default.createElement(l,null),document.getElementById("root"))}),module.hot&&module.hot.accept();
-},{"react":"n8MK","react-dom":"NKHc","react-app-polyfill/ie11":"Nq1R","babel-polyfill":"wllv","_bundle_loader":"Cm3W","./App":[["App.a7d6d313.js","NHn6"],"App.a7d6d313.js.map","NHn6"]}],"W28G":[function(require,module,exports) {
+},{"react":"n8MK","react-dom":"NKHc","react-app-polyfill/ie11":"Nq1R","babel-polyfill":"wllv","_bundle_loader":"TUK3","./App":[["App.4518ee23.js","NHn6"],"App.4518ee23.js.map","NHn6"]}],"Yi9z":[function(require,module,exports) {
 module.exports=function(n){return new Promise(function(e,o){var r=document.createElement("script");r.async=!0,r.type="text/javascript",r.charset="utf-8",r.src=n,r.onerror=function(n){r.onerror=r.onload=null,o(n)},r.onload=function(){r.onerror=r.onload=null,e()},document.getElementsByTagName("head")[0].appendChild(r)})};
 },{}],0:[function(require,module,exports) {
-var b=require("Cm3W");b.register("js",require("W28G"));
+var b=require("TUK3");b.register("js",require("Yi9z"));
 },{}]},{},[0,"zo2T"], null)
-//# sourceMappingURL=/react-google-login/example.b0a5d75f.js.map
+//# sourceMappingURL=/react-google-login/example.c273fe34.js.map

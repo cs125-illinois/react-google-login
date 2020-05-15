@@ -1,6 +1,3 @@
-if (process.env.NODE_ENV === "development" && module.hot) {
-  require("react-hot-loader")
-}
 import React from "react"
 import ReactDOM from "react-dom"
 
