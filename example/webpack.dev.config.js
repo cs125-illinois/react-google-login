@@ -5,12 +5,16 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   entry: path.resolve(__dirname, "index.tsx"),
   output: {
-    filename: "[name].[contentHash].js",
-    chunkFilename: "[name].[contentHash].js",
+    filename: "[name].js",
+    chunkFilename: "[name].js",
     path: path.resolve(__dirname, "../docs"),
+  },
+  devServer: {
+    port: 1234,
+    hot: true,
   },
   module: {
     rules: [
@@ -46,6 +50,7 @@ module.exports = {
   resolve: {
     extensions: [".wasm", ".mjs", ".js", ".json", ".ts", ".tsx"],
     alias: {
+      "react-dom": "@hot-loader/react-dom",
       "@cs125/react-google-login": path.resolve(__dirname, ".."),
     },
   },

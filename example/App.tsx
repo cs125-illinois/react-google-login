@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { hot } from "react-hot-loader"
 
 import { Container } from "semantic-ui-react"
 import "semantic-ui-css/components/container.min.css"
@@ -55,4 +56,4 @@ const App: React.SFC = () => (
     </Container>
   </GoogleLoginProvider>
 )
-export default App
+export default hot(module)(App)
