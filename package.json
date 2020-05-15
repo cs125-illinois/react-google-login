@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && GIT_COMMIT=$(git show --no-patch --format=%h) rollup -c",
-    "build:docs": "rm -rf docs/* && cd example && NODE_ENV=production webpack --mode=production && rm -rf ../docs/*.map",
+    "build:docs": "rm -rf docs/* && NODE_ENV=production webpack --config example/webpack.prod.config.js && rm -rf docs/*.map",
     "postbuild:docs": "purgecss --css docs/*css --content docs/*.js --output docs/ --font-face",
     "check": "npm run eslint && npm run tsc && npm run prettier && npm run depcheck",
     "depcheck": "depcheck --ignore-dirs dist,docs --ignores=@types/*,concurrently,webpack-*,@typescript-eslint/*,@cs125/react-google-login",

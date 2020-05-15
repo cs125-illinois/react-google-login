@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
   mode: "production",
-  entry: path.resolve("./index.tsx"),
+  entry: path.resolve(__dirname, "index.tsx"),
   output: {
     filename: "[name].[contentHash].js",
     chunkFilename: "[name].[contentHash].js",
@@ -49,5 +49,5 @@ module.exports = {
       "@cs125/react-google-login": path.resolve(__dirname, "../src/"),
     },
   },
-  plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: "./index.html" })],
+  plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: path.resolve(__dirname, "index.html") })],
 }
