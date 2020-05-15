@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import Container from "semantic-ui-react/dist/commonjs/elements/Container"
+import { Container } from "semantic-ui-react"
+import "semantic-ui-css/components/container.min.css"
 
 import { MDXProvider } from "@mdx-js/react"
 import Content from "./index.mdx"

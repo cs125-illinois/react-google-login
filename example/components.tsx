@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 
-import Button from "semantic-ui-react/dist/commonjs/elements/Button"
-import Icon from "semantic-ui-react/dist/commonjs/elements/Icon"
-import Item from "semantic-ui-react/dist/commonjs/views/Item"
+import { Button, Item } from "semantic-ui-react"
+import "semantic-ui-css/components/button.min.css"
+import "semantic-ui-css/components/item.min.css"
 
 import {
   withGoogleLogin,
@@ -43,7 +43,7 @@ export const LoginButton: React.FC = () => {
       disabled={!ready}
       onClick={loginOrOut({ auth, isSignedIn }, setBusy)}
     >
-      <Icon name="google" /> {!isSignedIn ? "Login" : "Logout"}
+      {!isSignedIn ? "Login" : "Logout"}
     </Button>
   )
 }
@@ -55,7 +55,7 @@ export const LoginButtonHOC: React.FC = () => {
         const { ready, isSignedIn } = googleLoginContext
         return (
           <Button positive={!isSignedIn} loading={!ready} disabled={!ready} onClick={loginOrOut(googleLoginContext)}>
-            <Icon name="google" /> {!isSignedIn ? "Login" : "Logout"}
+            {!isSignedIn ? "Login" : "Logout"}
           </Button>
         )
       }}
