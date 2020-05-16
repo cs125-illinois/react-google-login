@@ -5,3 +5,4 @@ node_modules
 *.swo
 .cache
 /docs/serve.json
+/report.html

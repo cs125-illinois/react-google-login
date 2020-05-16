@@ -1,8 +1,11 @@
+const webpack = require("webpack")
 const path = require("path")
 
-const HtmlWebpackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin")
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
 module.exports = {
   mode: "production",
@@ -49,5 +52,16 @@ module.exports = {
       "@cs125/react-google-login": path.resolve(__dirname, ".."),
     },
   },
-  plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: path.resolve(__dirname, "index.html") })],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.EnvironmentPlugin(["GIT_COMMIT", "npm_package_version", "npm_package_description"]),
+    new LodashModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, "index.html"), inlineSource: ".js" }),
+    new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      reportFilename: path.resolve(__dirname, "../report.html"),
+      openAnalyzer: false,
+    }),
+  ],
 }
