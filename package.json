@@ -34,7 +34,7 @@
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
-    "@cs125/semantic-ui": "^2020.5.7",
+    "@cs125/semantic-ui": "^2020.5.8",
     "@hot-loader/react-dom": "^16.13.0",
     "@mdx-js/loader": "^1.6.1",
     "@mdx-js/react": "^1.6.1",
