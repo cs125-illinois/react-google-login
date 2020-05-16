@@ -1,4 +1,4 @@
 {
   "presets": ["@babel/preset-env", "@babel/preset-react"],
-  "plugins": ["react-hot-loader/babel", ["lodash", { "id": "semantic-ui-react" }]]
+  "plugins": ["react-hot-loader/babel"],
 }

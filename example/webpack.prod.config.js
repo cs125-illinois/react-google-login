@@ -2,7 +2,6 @@ const webpack = require("webpack")
 const path = require("path")
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-const LodashModuleReplacementPlugin = require("lodash-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
@@ -55,7 +54,6 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.EnvironmentPlugin(["GIT_COMMIT", "npm_package_version", "npm_package_description"]),
-    new LodashModuleReplacementPlugin(),
     new HtmlWebpackPlugin({ template: path.resolve(__dirname, "index.html"), inlineSource: ".js" }),
     new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
     new BundleAnalyzerPlugin({
