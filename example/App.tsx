@@ -3,8 +3,7 @@ import { Helmet } from "react-helmet"
 import PropTypes from "prop-types"
 import { hot } from "react-hot-loader"
 
-import { Container } from "semantic-ui-react"
-import "semantic-ui-css/components/container.min.css"
+import { Container } from "@cs125/semantic-ui"
 
 import { MDXProvider } from "@mdx-js/react"
 import Content from "./index.mdx"

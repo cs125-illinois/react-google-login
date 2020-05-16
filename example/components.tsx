@@ -1,67 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 
-import { Button, Item } from "semantic-ui-react"
-import "semantic-ui-css/components/button.min.css"
-import "semantic-ui-css/components/item.min.css"
+import { Item } from "@cs125/semantic-ui"
 
-import {
-  withGoogleLogin,
-  WithGoogleLogin,
-  GoogleLoginContext,
-  GoogleAuth,
-  WithGoogleUser,
-  getProfile,
-  getTokens,
-  withGoogleUser,
-  GoogleUserContext,
-} from "@cs125/react-google-login"
-
-const loginOrOut = (
-  { auth, isSignedIn }: { auth: GoogleAuth | null; isSignedIn: boolean | undefined },
-  setBusy: (busy: boolean) => void = (): void => {} // eslint-disable-line @typescript-eslint/no-empty-function
-) => async (): Promise<void> => {
-  if (!auth) {
-    return
-  }
-  setBusy(true)
-  try {
-    await (!isSignedIn ? auth.signIn() : auth.signOut())
-  } finally {
-    setBusy(false)
-  }
-}
-
-export const LoginButton: React.FC = () => {
-  const [busy, setBusy] = useState<boolean>(false)
-
-  const { ready, auth, isSignedIn } = withGoogleLogin()
-  return (
-    <Button
-      positive={!isSignedIn}
-      loading={!ready || busy}
-      disabled={!ready}
-      onClick={loginOrOut({ auth, isSignedIn }, setBusy)}
-    >
-      {!isSignedIn ? "Login" : "Logout"}
-    </Button>
-  )
-}
-
-export const LoginButtonHOC: React.FC = () => {
-  return (
-    <WithGoogleLogin>
-      {(googleLoginContext: GoogleLoginContext): JSX.Element => {
-        const { ready, isSignedIn } = googleLoginContext
-        return (
-          <Button positive={!isSignedIn} loading={!ready} disabled={!ready} onClick={loginOrOut(googleLoginContext)}>
-            {!isSignedIn ? "Login" : "Logout"}
-          </Button>
-        )
-      }}
-    </WithGoogleLogin>
-  )
-}
+import { WithGoogleUser, getProfile, getTokens, withGoogleUser, GoogleUserContext } from "@cs125/react-google-login"
 
 const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: { googleUser: GoogleUserContext }) => {
   const { user, isSignedIn } = googleUser

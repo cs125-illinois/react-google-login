@@ -1,3 +1,4 @@
+const webpack = require("webpack")
 const path = require("path")
 
 const HtmlWebpackPlugin = require("html-webpack-plugin")
@@ -54,5 +55,9 @@ module.exports = {
       "@cs125/react-google-login": path.resolve(__dirname, ".."),
     },
   },
-  plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: path.resolve(__dirname, "index.html") })],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.EnvironmentPlugin(["GIT_COMMIT", "npm_package_version", "npm_package_description"]),
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, "index.html") }),
+  ],
 }
