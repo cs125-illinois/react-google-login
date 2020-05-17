@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 
 import { Item } from "semantic-ui-react"
 
@@ -38,11 +37,4 @@ export const WithUserHOC: React.FC = () => {
       }}
     </WithGoogleUser>
   )
-}
-
-export const Lead: React.FC = ({ children }) => {
-  return <div style={{ fontSize: "1.2rem" }}>{children}</div>
-}
-Lead.propTypes = {
-  children: PropTypes.node.isRequired,
 }
