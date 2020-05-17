@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { Item } from "@cs125/semantic-ui"
+import { Item } from "semantic-ui-react"
 
 import { WithGoogleUser, getProfile, getTokens, withGoogleUser, GoogleUserContext } from "@cs125/react-google-login"
 
