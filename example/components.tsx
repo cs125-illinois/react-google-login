@@ -2,7 +2,7 @@ import React from "react"
 
 import { Item } from "semantic-ui-react"
 
-import { WithGoogleUser, getProfile, getTokens, withGoogleUser, GoogleUserContext } from "@cs125/react-google-login"
+import { WithGoogleUser, getProfile, getTokens, useGoogleUser, GoogleUserContext } from "@cs125/react-google-login"
 
 const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: { googleUser: GoogleUserContext }) => {
   const { user, isSignedIn } = googleUser
@@ -28,7 +28,7 @@ const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: {
   )
 }
 
-export const WithUser: React.FC = () => <ShowUser googleUser={withGoogleUser()} />
+export const WithUser: React.FC = () => <ShowUser googleUser={useGoogleUser()} />
 export const WithUserHOC: React.FC = () => {
   return (
     <WithGoogleUser>

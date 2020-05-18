@@ -6,7 +6,8 @@
     "**/dist": true,
     "**/docs": true,
     "**/node_modules": true,
-    "**/package-lock.json": true
+    "**/package-lock.json": true,
+    "example/public": true
   },
   "eslint.validate": ["typescriptreact"]
 }

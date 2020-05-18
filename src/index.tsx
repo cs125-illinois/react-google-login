@@ -108,15 +108,15 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
     script.onload = (): void => {
       window.gapi.load("auth2", () => {
         window.gapi.auth2.init(clientConfig).then(
-          (newAuth) => {
+          newAuth => {
             setAuth({ auth: newAuth, ready: true, err: undefined })
             const initialUser = newAuth.currentUser.get()
             setUser({ user: initialUser, isSignedIn: initialUser.isSignedIn() })
-            newAuth.currentUser.listen((newUser) => {
+            newAuth.currentUser.listen(newUser => {
               setUser({ user: newUser, isSignedIn: newUser.isSignedIn() })
             })
           },
-          (err) => {
+          err => {
             setAuth({ auth: null, ready: false, err })
             throw err
           }
@@ -127,7 +127,7 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
     return (): void => {
       document.head.removeChild(script)
     }
-  }, [])
+  }, [clientConfig, libraryURI])
 
   return <GoogleLoginContext.Provider value={{ ...auth, ...user }}>{children}</GoogleLoginContext.Provider>
 }
@@ -162,20 +162,20 @@ declare global {
   }
 }
 
-export const withGoogleLogin = (): GoogleLoginContext => {
+export const useGoogleLogin = (): GoogleLoginContext => {
   return useContext(GoogleLoginContext)
 }
 interface WithGoogleLoginProps {
   children: (googleLogin: GoogleLoginContext) => JSX.Element | null
 }
 export const WithGoogleLogin: React.FC<WithGoogleLoginProps> = ({ children }) => {
-  return children(withGoogleLogin())
+  return children(useGoogleLogin())
 }
 WithGoogleLogin.propTypes = {
   children: PropTypes.func.isRequired,
 }
 
-export const withGoogleUser = (): GoogleUserContext => {
+export const useGoogleUser = (): GoogleUserContext => {
   const { user, isSignedIn } = useContext(GoogleLoginContext)
   return { user, isSignedIn }
 }
@@ -183,7 +183,7 @@ interface WithGoogleUserProps {
   children: (googleUser: GoogleUserContext) => JSX.Element | null
 }
 export const WithGoogleUser: React.FC<WithGoogleUserProps> = ({ children }) => {
-  return children(withGoogleUser())
+  return children(useGoogleUser())
 }
 WithGoogleUser.propTypes = {
   children: PropTypes.func.isRequired,
@@ -221,7 +221,7 @@ export const getTokens = (user: GoogleUser): GoogleAuthTokens => {
   }
 }
 
-export const withGoogleTokens = (): GoogleTokensContext => {
+export const useGoogleTokens = (): GoogleTokensContext => {
   const { user } = useContext(GoogleLoginContext)
   if (!user) {
     return { idToken: undefined, accessToken: undefined }
@@ -233,20 +233,20 @@ interface WithGoogleTokensProps {
   children: (googleTokens: GoogleTokensContext) => JSX.Element | null
 }
 export const WithGoogleTokens: React.FC<WithGoogleTokensProps> = ({ children }) => {
-  return children(withGoogleTokens())
+  return children(useGoogleTokens())
 }
 WithGoogleTokens.propTypes = {
   children: PropTypes.func.isRequired,
 }
 
-export const withGoogleEmail = (): string | undefined => {
+export const useGoogleEmail = (): string | undefined => {
   return useContext(GoogleLoginContext).user?.getBasicProfile().getEmail()
 }
 interface WithGoogleEmailProps {
   children: (googleEmail: string | undefined) => JSX.Element | null
 }
 export const WithGoogleEmail: React.FC<WithGoogleEmailProps> = ({ children }) => {
-  return children(withGoogleEmail())
+  return children(useGoogleEmail())
 }
 WithGoogleEmail.propTypes = {
   children: PropTypes.func.isRequired,
