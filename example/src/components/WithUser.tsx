@@ -16,7 +16,7 @@ const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: {
     <Item.Group>
       <Item>
         <Item.Image size="small" src={imageUrl} alt="Your Picture" />
-        <Item.Content>
+        <Item.Content style={{ maxWidth: "100%" }}>
           <Item.Header>{name}</Item.Header>
           <Item.Meta>{email}</Item.Meta>
           <Item.Description>
