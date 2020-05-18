@@ -22,7 +22,7 @@
     "serve": "cp serve.json docs && serve -l 1234 docs",
     "start": "concurrently -n example,src --handle-input \"npm run example\" \"npm run watch\"",
     "tsc": "tsc --noEmit",
-    "prettier": "prettier --write src/ example/ .vscode/ *.json *.js .*.js *.md && prettier-package-json --write && cd example && prettier-package-json --write",
+    "prettier": "prettier \"**/*{.tsx,.ts,.json,.js,.md}\" \".*.js\" --write && prettier-package-json --write && cd example && prettier-package-json --write",
     "watch": "rollup -c -w"
   },
   "types": "dist/index.d.ts",
@@ -52,6 +52,7 @@
     "prettier": "^2.0.5",
     "prettier-package-json": "^2.1.3",
     "prop-types": "^15.7.2",
+    "react": "^16.13.1",
     "rollup": "^2.10.3",
     "rollup-plugin-typescript2": "^0.27.1",
     "serve": "^11.3.0",

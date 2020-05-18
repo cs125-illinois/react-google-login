@@ -6,6 +6,7 @@ export default {
     format: "cjs",
     file: "./dist/index.cjs.js",
     sourcemap: true,
+    strict: false,
   },
   plugins: [
     typescript({
