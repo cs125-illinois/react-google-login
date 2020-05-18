@@ -1,7 +1,5 @@
 import React from "react"
 
-import "@cs125/semantic-ui/semantic.min.css"
-
 import { GoogleLoginProvider } from "@cs125/react-google-login"
 import { Container } from "semantic-ui-react"
 import { MDXProvider } from "@mdx-js/react"
@@ -14,9 +12,9 @@ const App: React.FC = () => (
     }}
   >
     <Container text style={{ paddingTop: 16 }}>
-    <MDXProvider components={{}}>
-      <Content />
-    </MDXProvider>
+      <MDXProvider components={{}}>
+        <Content />
+      </MDXProvider>
     </Container>
   </GoogleLoginProvider>
 )

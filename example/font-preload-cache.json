@@ -1,0 +1,16 @@
+{
+  "timestamp": 1589819140879,
+  "hash": "16989cee614a1170a234477346bf6dcb",
+  "assets": {
+    "/dev-404-page/": {
+      "https://fonts.gstatic.com/s/overpass/v4/qFdA35WCmI96Ajtm81kedv7K.ttf": true,
+      "https://fonts.gstatic.com/s/sourcecodepro/v11/HI_SiYsKILxRpg3hIP6sJ7fM7PqVOg.ttf": true,
+      "https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-U1Ug.ttf": true
+    },
+    "/": {
+      "https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-U1Ug.ttf": true,
+      "https://fonts.gstatic.com/s/overpass/v4/qFdA35WCmI96Ajtm81kedv7K.ttf": true,
+      "https://fonts.gstatic.com/s/sourcecodepro/v11/HI_SiYsKILxRpg3hIP6sJ7fM7PqVOg.ttf": true
+    }
+  }
+}

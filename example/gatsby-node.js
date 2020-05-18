@@ -1,7 +1,1 @@
-exports.createPages = ({ actions }) => {
-  const { createPage } = actions
-  createPage({
-    path: `/`,
-    component: require.resolve(`./index.tsx`),
-  })
-}
+exports.createPages = ({ actions }) => actions.createPage({ path: `/`, component: require.resolve(`./index.tsx`) })
