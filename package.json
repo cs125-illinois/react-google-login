@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && GIT_COMMIT=$(git show --no-patch --format=%h) rollup -c",
-    "build:docs": "rm -rf docs && cd example && gatsby build --prefix-paths && mv public ../docs && cd .. && rm -rf docs/*.map",
+    "build:demo": "cd example && rm -rf public && gatsby build --prefix-paths && gh-pages -d public",
     "check": "npm run eslint && npm run tsc && npm run prettier && npm run depcheck",
     "depcheck": "depcheck --ignore-dirs dist,docs --ignores=@types/*,concurrently,@typescript-eslint/*,eslint-plugin-react-hooks,@cs125/react-google-login",
     "eslint": "eslint --fix src/ example/ --max-warnings=0 --ext .js,.ts,.tsx",
