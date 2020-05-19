@@ -3,28 +3,7 @@ const path = require("path")
 module.exports = {
   pathPrefix: "/react-google-login",
   plugins: [
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "pages",
-        path: `${__dirname}/src/pages/`,
-      },
-    },
-    {
-      resolve: "gatsby-plugin-mdx",
-      options: {
-        defaultLayouts: {
-          pages: require.resolve("./src/layouts/index.tsx"),
-        },
-      },
-    },
-    {
-      resolve: "gatsby-plugin-typescript",
-      options: {
-        isTSX: true,
-        allExtensions: true,
-      },
-    },
+    "@cs125/gatsby-theme-cs125-docs",
     {
       resolve: "gatsby-alias-imports",
       options: {
@@ -35,6 +14,5 @@ module.exports = {
         },
       },
     },
-    "gatsby-plugin-preload-fonts",
   ],
 }
