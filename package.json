@@ -11,6 +11,8 @@
     "dist/**/*"
   ],
   "scripts": {
+    "backend": "docker-compose --env-file example/.env.development -p $npm_package_name up",
+    "postbackend": "docker-compose --env-file example/.env.development -p $npm_package_name down",
     "build": "rm -rf dist && GIT_COMMIT=$(git show --no-patch --format=%h) rollup -c",
     "build:demo": "cd example && npm run deploy",
     "check": "npm run eslint && npm run tsc && npm run prettier && npm run depcheck",
@@ -20,7 +22,7 @@
     "ncu": "ncu",
     "prepublishOnly": "npm run build",
     "serve": "cp serve.json docs && serve -l 1234 docs",
-    "start": "concurrently -n example,src --handle-input \"npm run example\" \"npm run watch\"",
+    "start": "concurrently -n example,src,backend --handle-input \"npm run example\" \"npm run watch\" \"npm run backend\"",
     "tsc": "tsc --noEmit",
     "prettier": "prettier \"**/*{.tsx,.ts,.json,.js,.md}\" \".*.js\" --write && prettier-package-json --write && cd example && prettier-package-json --write",
     "watch": "rollup -c -w"
