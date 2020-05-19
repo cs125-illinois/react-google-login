@@ -10,7 +10,7 @@
     "start": "npm run develop"
   },
   "dependencies": {
-    "@cs125/semantic-ui": "^2020.5.23",
+    "@cs125/semantic-ui": "^2020.5.24",
     "@mdx-js/mdx": "^1.6.1",
     "@mdx-js/react": "^1.6.1",
     "gatsby": "^2.21.37",
