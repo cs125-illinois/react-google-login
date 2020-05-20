@@ -1,8 +1,8 @@
 {
+  "private": true,
   "name": "@cs125/react-google-login",
   "description": "React support for Google client-side login.",
   "version": "2020.5.5",
-  "private": true,
   "scripts": {
     "build": "gatsby build",
     "clean": "gatsby clean",
