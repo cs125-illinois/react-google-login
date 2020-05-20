@@ -14,8 +14,8 @@
     "start": "npm run develop"
   },
   "dependencies": {
-    "@cs125/gatsby-theme-cs125-docs": "^2020.5.14",
-    "gatsby": "^2.22.0",
+    "@cs125/gatsby-theme-cs125-docs": "^2020.5.16",
+    "gatsby": "^2.22.3",
     "gatsby-alias-imports": "^1.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
