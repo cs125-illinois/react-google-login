@@ -1,13 +1,16 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useEffect, useState, useContext, useRef } from "react"
 import PropTypes from "prop-types"
 
-export interface GoogleLoginContext extends GoogleAuthContext, GoogleUserContext {}
+export interface GoogleLoginContext extends GoogleAuthContext, GoogleUserContext {
+  lastLogin: string | undefined
+}
 const GoogleLoginContext = React.createContext<GoogleLoginContext>({
   auth: null,
   user: null,
   ready: false,
   err: undefined,
   isSignedIn: false,
+  lastLogin: undefined,
 })
 
 export interface GoogleAuth {
@@ -66,6 +69,7 @@ export interface GoogleLoginProviderProps {
   clientConfig: ClientConfig
   libraryURI?: string
   children: React.ReactNode
+  localStorageKey?: string
 }
 export interface ClientConfig {
   client_id: string
@@ -92,12 +96,19 @@ export interface GoogleTokensContext {
   accessToken: string | undefined
 }
 
-export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ clientConfig, libraryURI, children }) => {
+export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
+  clientConfig,
+  libraryURI,
+  localStorageKey,
+  children,
+}) => {
   const [auth, setAuth] = useState<GoogleAuthContext>({ auth: null, ready: false, err: undefined })
   const [user, setUser] = useState<GoogleUserContext>({
     user: null,
     isSignedIn: undefined,
   })
+  const key = localStorageKey as string
+  const lastLogin = useRef<string | undefined>(localStorage.getItem(key) || undefined)
 
   useEffect(() => {
     const script = Object.assign(document.createElement("script"), {
@@ -114,6 +125,7 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
             setUser({ user: initialUser, isSignedIn: initialUser.isSignedIn() })
             newAuth.currentUser.listen(newUser => {
               setUser({ user: newUser, isSignedIn: newUser.isSignedIn() })
+              newUser.isSignedIn() ? localStorage.setItem(key, new Date().toISOString()) : localStorage.removeItem(key)
             })
           },
           err => {
@@ -127,9 +139,13 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
     return (): void => {
       document.head.removeChild(script)
     }
-  }, [clientConfig, libraryURI])
+  }, [clientConfig, libraryURI, key])
 
-  return <GoogleLoginContext.Provider value={{ ...auth, ...user }}>{children}</GoogleLoginContext.Provider>
+  return (
+    <GoogleLoginContext.Provider value={{ ...auth, ...user, lastLogin: lastLogin.current }}>
+      {children}
+    </GoogleLoginContext.Provider>
+  )
 }
 
 GoogleLoginProvider.propTypes = {
@@ -145,9 +161,11 @@ GoogleLoginProvider.propTypes = {
   }).isRequired,
   libraryURI: PropTypes.string,
   children: PropTypes.node.isRequired,
+  localStorageKey: PropTypes.string,
 }
 GoogleLoginProvider.defaultProps = {
   libraryURI: "https://apis.google.com/js/platform.js",
+  localStorageKey: "@cs125/react-google-login",
 }
 
 declare global {
