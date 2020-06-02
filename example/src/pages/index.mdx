@@ -1,19 +1,19 @@
-import { LoginButton, Lead, UpdateHash } from "@cs125/semantic-ui"
-import { WithUser } from "@components/WithUser"
+import { Single } from "../sites/"
+export default Single
 
-<UpdateHash tags={["h2"]} />
+import { Lead } from "@cs125/gatsby-theme-cs125/src/material-ui"
+import { LoginButton } from "@cs125/gatsby-theme-cs125/src/react-google-login"
+import { WithUser } from "../components/WithUser"
 
-# `@cs125/react-google-login`
+```bash
+npm i @cs125/react-google-login
+```
 
 <Lead>
 
 React Typescript support for [Google Sign-in](https://developers.google.com/identity/sign-in/web/sign-in).
 
 </Lead>
-
-```bash
-npm i @cs125/react-google-login
-```
 
 ## Use
 
@@ -24,6 +24,8 @@ Visit the [documentation here](https://github.com/cs125-illinois/react-google-lo
 The login button below will open the standard Google Sign-in dialog.
 Once you are signed in, your name, email address, photo, and a login token will be displayed.
 
+<div style={{ marginBottom: 8 }}>
 <LoginButton />
+</div>
 
 <WithUser />

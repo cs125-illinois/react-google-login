@@ -3,6 +3,8 @@ import PropTypes from "prop-types"
 
 export interface GoogleLoginContext extends GoogleAuthContext, GoogleUserContext {
   lastLogin: string | undefined
+  loggingIn: boolean
+  setLoggingIn: (loggingIn: boolean) => void
 }
 const GoogleLoginContext = React.createContext<GoogleLoginContext>({
   auth: null,
@@ -11,6 +13,10 @@ const GoogleLoginContext = React.createContext<GoogleLoginContext>({
   err: undefined,
   isSignedIn: false,
   lastLogin: undefined,
+  loggingIn: false,
+  setLoggingIn: () => {
+    throw Error("GoogleLoginContext not defined")
+  },
 })
 
 export interface GoogleAuth {
@@ -109,6 +115,7 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
   })
   const key = localStorageKey as string
   const lastLogin = useRef<string | undefined>(localStorage.getItem(key) || undefined)
+  const [loggingIn, setLoggingIn] = useState(false)
 
   useEffect(() => {
     const script = Object.assign(document.createElement("script"), {
@@ -142,7 +149,7 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
   }, [clientConfig, libraryURI, key])
 
   return (
-    <GoogleLoginContext.Provider value={{ ...auth, ...user, lastLogin: lastLogin.current }}>
+    <GoogleLoginContext.Provider value={{ ...auth, ...user, lastLogin: lastLogin.current, loggingIn, setLoggingIn }}>
       {children}
     </GoogleLoginContext.Provider>
   )

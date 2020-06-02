@@ -1,19 +1,21 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "target": "es2019",
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
     "skipLibCheck": true,
     "strict": true,
+    "alwaysStrict": false,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["node_modules/@types", "./typings.d.ts"],
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": ".",
     "paths": {
       "@cs125/react-google-login": [".."]

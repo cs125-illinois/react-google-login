@@ -1,10 +1,18 @@
 import React from "react"
 
-import { Item } from "semantic-ui-react"
-
 import { getProfile, getTokens, useGoogleUser, GoogleUserContext } from "@cs125/react-google-login"
 
+import { Card, CardHeader, Avatar, CardContent, makeStyles } from "@material-ui/core"
+
+const useStyles = makeStyles(() => ({
+  content: {
+    overflowWrap: "break-word",
+  },
+}))
+
 const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: { googleUser: GoogleUserContext }) => {
+  const classes = useStyles()
+
   const { user, isSignedIn } = googleUser
   if (!isSignedIn || !user) {
     return null
@@ -13,18 +21,16 @@ const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: {
   // Replace hyphens with non-breaking hyphens
   const id_token = getTokens(user).id_token.replace(/-/g, "‑")
   return (
-    <Item.Group>
-      <Item>
-        <Item.Image size="small" src={imageUrl} alt="Your Picture" />
-        <Item.Content style={{ maxWidth: "100%" }}>
-          <Item.Header>{name}</Item.Header>
-          <Item.Meta>{email}</Item.Meta>
-          <Item.Description>
-            <pre style={{ whiteSpace: "pre-wrap", hyphens: "manual", overflowWrap: "break-word" }}>{id_token}</pre>
-          </Item.Description>
-        </Item.Content>
-      </Item>
-    </Item.Group>
+    <Card>
+      <CardHeader
+        avatar={<Avatar alt={name} src={imageUrl} />}
+        title={<h3 style={{ marginBottom: 0 }}>{name}</h3>}
+        subheader={<code>{email}</code>}
+      />
+      <CardContent className={classes.content}>
+        <code>{id_token}</code>
+      </CardContent>
+    </Card>
   )
 }
 

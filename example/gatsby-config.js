@@ -1,18 +1,5 @@
-const path = require("path")
+require("source-map-support").install()
+require("ts-node").register()
+require("tsconfig-paths/register")
 
-module.exports = {
-  pathPrefix: "/react-google-login",
-  plugins: [
-    "@cs125/gatsby-theme-cs125-docs",
-    {
-      resolve: "gatsby-alias-imports",
-      options: {
-        aliases: {
-          react: "./node_modules/react",
-          "@components": "src/components",
-          "@cs125/react-google-login": "..",
-        },
-      },
-    },
-  ],
-}
+module.exports = require("./gatsby-config.ts")

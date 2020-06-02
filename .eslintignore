@@ -2,3 +2,5 @@
 dist
 node_modules
 example/public
+example/.cache
+example/graphql-types.ts
