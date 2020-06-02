@@ -114,7 +114,9 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
     isSignedIn: undefined,
   })
   const key = localStorageKey as string
-  const lastLogin = useRef<string | undefined>(localStorage.getItem(key) || undefined)
+  const lastLogin = useRef<string | undefined>(
+    (typeof window !== "undefined" && localStorage.getItem(key)) || undefined
+  )
   const [loggingIn, setLoggingIn] = useState(false)
 
   useEffect(() => {
