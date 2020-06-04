@@ -18,8 +18,10 @@ const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: {
     return null
   }
   const { name, email, imageUrl } = getProfile(user)
-  // Replace hyphens with non-breaking hyphens
-  const id_token = getTokens(user).id_token.replace(/-/g, "‑")
+  const { id_token } = getTokens(user)
+  if (!id_token) {
+    return null
+  }
   return (
     <Card>
       <CardHeader
@@ -28,7 +30,7 @@ const ShowUser: React.FC<{ googleUser: GoogleUserContext }> = ({ googleUser }: {
         subheader={<code>{email}</code>}
       />
       <CardContent className={classes.content}>
-        <code>{id_token}</code>
+        <code>{id_token.replace(/-/g, "‑")}</code>
       </CardContent>
     </Card>
   )

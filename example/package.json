@@ -18,9 +18,9 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@cs125/gatsby-theme-cs125": "^2020.6.14",
+    "@cs125/gatsby-theme-cs125": "^2020.6.17",
     "@material-ui/core": "^4.10.1",
-    "gatsby": "^2.22.17",
+    "gatsby": "^2.23.0",
     "gatsby-alias-imports": "^1.0.4",
     "gatsby-plugin-typescript": "^2.4.4",
     "react": "^16.13.1",
@@ -28,7 +28,7 @@
     "source-map-support": "^0.5.19",
     "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.5"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.1.0",
