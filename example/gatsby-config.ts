@@ -1,3 +1,5 @@
+export const pathPrefix = "/react-google-login"
+
 export const plugins = [
   "@cs125/gatsby-theme-cs125",
   "gatsby-plugin-typescript",
