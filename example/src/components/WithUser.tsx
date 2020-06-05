@@ -2,7 +2,11 @@ import React from "react"
 
 import { getProfile, getTokens, useGoogleUser, GoogleUserContext } from "@cs125/react-google-login"
 
-import { Card, CardHeader, Avatar, CardContent, makeStyles } from "@material-ui/core"
+import Card from "@material-ui/core/Card"
+import CardHeader from "@material-ui/core/CardHeader"
+import CardContent from "@material-ui/core/CardContent"
+import Avatar from "@material-ui/core/Avatar"
+import makeStyles from "@material-ui/core/styles/makeStyles"
 
 const useStyles = makeStyles(() => ({
   content: {
