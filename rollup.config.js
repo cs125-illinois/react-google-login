@@ -1,10 +1,10 @@
 import typescript from "rollup-plugin-typescript2"
 
-export default {
+export default ["cjs", "es"].map(format => ({
   input: "./src/index.tsx",
   output: {
-    format: "cjs",
-    file: "./dist/index.cjs.js",
+    format,
+    file: `./dist/index.${format}.js`,
     sourcemap: true,
     strict: false,
   },
@@ -17,4 +17,4 @@ export default {
     }),
   ],
   external: ["react", "prop-types"],
-}
+}))
