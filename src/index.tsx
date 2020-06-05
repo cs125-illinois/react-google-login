@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useContext, useRef } from "react"
+import React, { useEffect, useState, useContext, useCallback } from "react"
 import PropTypes from "prop-types"
 
 export interface GoogleLoginContext extends GoogleAuthContext, GoogleUserContext {
-  lastLogin: string | undefined
   loggingIn: boolean
   setLoggingIn: (loggingIn: boolean) => void
 }
@@ -12,7 +11,6 @@ const GoogleLoginContext = React.createContext<GoogleLoginContext>({
   ready: false,
   err: undefined,
   isSignedIn: false,
-  lastLogin: undefined,
   loggingIn: false,
   setLoggingIn: () => {
     throw Error("GoogleLoginContext not defined")
@@ -102,56 +100,62 @@ export interface GoogleTokensContext {
   accessToken: string | undefined
 }
 
-export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({
-  clientConfig,
-  libraryURI,
-  localStorageKey,
-  children,
-}) => {
+export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ clientConfig, libraryURI, children }) => {
   const [auth, setAuth] = useState<GoogleAuthContext>({ auth: null, ready: false, err: undefined })
   const [user, setUser] = useState<GoogleUserContext>({
     user: null,
     isSignedIn: undefined,
   })
-  const key = localStorageKey as string
-  const lastLogin = useRef<string | undefined>(
-    (typeof window !== "undefined" && localStorage.getItem(key)) || undefined
-  )
   const [loggingIn, setLoggingIn] = useState(false)
 
+  const initialize = useCallback(() => {
+    window.gapi.load("auth2", () => {
+      window.gapi.auth2.init(clientConfig).then(
+        newAuth => {
+          setAuth({ auth: newAuth, ready: true, err: undefined })
+          const initialUser = newAuth.currentUser.get()
+          setUser({ user: initialUser, isSignedIn: initialUser.isSignedIn() })
+          newAuth.currentUser.listen(newUser => {
+            setUser({ user: newUser, isSignedIn: newUser.isSignedIn() })
+            newUser.isSignedIn()
+          })
+        },
+        err => {
+          setAuth({ auth: null, ready: false, err })
+          throw err
+        }
+      )
+    })
+  }, [clientConfig])
+
   useEffect(() => {
+    // Allow users to load the Google API separately if they want. Can help with preloading.
+    if (window.gapi) {
+      initialize()
+      return
+    }
+    const existingScript = document.querySelector(`script[src="${libraryURI}"]`) as HTMLScriptElement
+    if (existingScript) {
+      existingScript.onload = initialize
+      return
+    }
+    const insertedScript = true
     const script = Object.assign(document.createElement("script"), {
       src: libraryURI,
       async: true,
       defer: true,
     })
-    script.onload = (): void => {
-      window.gapi.load("auth2", () => {
-        window.gapi.auth2.init(clientConfig).then(
-          newAuth => {
-            setAuth({ auth: newAuth, ready: true, err: undefined })
-            const initialUser = newAuth.currentUser.get()
-            setUser({ user: initialUser, isSignedIn: initialUser.isSignedIn() })
-            newAuth.currentUser.listen(newUser => {
-              setUser({ user: newUser, isSignedIn: newUser.isSignedIn() })
-              newUser.isSignedIn() ? localStorage.setItem(key, new Date().toISOString()) : localStorage.removeItem(key)
-            })
-          },
-          err => {
-            setAuth({ auth: null, ready: false, err })
-            throw err
-          }
-        )
-      })
-    }
+    script.onload = initialize
     document.head.appendChild(script)
     return (): void => {
-      document.head.removeChild(script)
+      if (insertedScript) {
+        document.head.removeChild(script)
+      }
     }
-  }, [clientConfig, libraryURI, key])
+  }, [libraryURI, initialize])
 
   return (
-    <GoogleLoginContext.Provider value={{ ...auth, ...user, lastLogin: lastLogin.current, loggingIn, setLoggingIn }}>
+    <GoogleLoginContext.Provider value={{ ...auth, ...user, loggingIn, setLoggingIn }}>
       {children}
     </GoogleLoginContext.Provider>
   )
@@ -170,11 +174,9 @@ GoogleLoginProvider.propTypes = {
   }).isRequired,
   libraryURI: PropTypes.string,
   children: PropTypes.node.isRequired,
-  localStorageKey: PropTypes.string,
 }
 GoogleLoginProvider.defaultProps = {
   libraryURI: "https://apis.google.com/js/platform.js",
-  localStorageKey: "@cs125/react-google-login",
 }
 
 declare global {
