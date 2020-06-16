@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import { SiteQuery } from "../../graphql-types"
+import { SingleQuery } from "../../graphql-types"
 import { useStaticQuery } from "gatsby"
 import { graphql } from "gatsby"
 import { FixedObject } from "gatsby-image"
@@ -9,8 +9,8 @@ import { FixedObject } from "gatsby-image"
 import { Single as SingleLayout } from "@cs125/gatsby-theme-cs125/src/layouts"
 
 export const Single: React.FC = ({ children }) => {
-  const data: SiteQuery = useStaticQuery(graphql`
-    query Site {
+  const data: SingleQuery = useStaticQuery(graphql`
+    query Single {
       site {
         siteMetadata {
           title
