@@ -18,6 +18,7 @@
     "build": "rm -rf dist && GIT_COMMIT=$(git show --no-patch --format=%h) rollup -c",
     "build:demo": "cd example && npm run deploy",
     "check": "npm run eslint && npm run tsc && npm run prettier && npm run depcheck",
+    "client": "GIT_COMMIT=$(git show --no-patch --format=%h) rollup -c -w",
     "depcheck": "depcheck --ignore-dirs dist,docs --ignores=@types/*,concurrently,@typescript-eslint/*,eslint-plugin-react-hooks,@cs125/react-google-login",
     "eslint": "eslint --fix src/ example/ --max-warnings=0 --ext .js,.ts,.tsx",
     "example": "cd example && gatsby develop -p 1234 -H 0.0.0.0",
@@ -26,8 +27,7 @@
     "prepublishOnly": "npm run build",
     "start": "concurrently -n example,src --handle-input \"npm run example\" \"npm run watch\"",
     "tsc": "tsc --noEmit && cd example && tsc --noEmit",
-    "prettier": "prettier \"**/*{.tsx,.ts,.json,.js,.md}\" \".*.js\" --write && prettier-package-json --write && cd example && prettier-package-json --write",
-    "watch": "rollup -c -w"
+    "prettier": "prettier \"**/*{.tsx,.ts,.json,.js,.md}\" \".*.js\" --write && prettier-package-json --write && cd example && prettier-package-json --write"
   },
   "types": "dist/index.d.ts",
   "peerDependencies": {
