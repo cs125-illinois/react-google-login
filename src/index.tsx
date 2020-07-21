@@ -2,10 +2,12 @@ import React, { useEffect, useState, useContext, useCallback } from "react"
 import PropTypes from "prop-types"
 
 export interface GoogleLoginContext extends GoogleAuthContext, GoogleUserContext {
+  available: boolean
   loggingIn: boolean
   setLoggingIn: (loggingIn: boolean) => void
 }
 const GoogleLoginContext = React.createContext<GoogleLoginContext>({
+  available: false,
   auth: null,
   user: null,
   ready: false,
@@ -155,7 +157,7 @@ export const GoogleLoginProvider: React.FC<GoogleLoginProviderProps> = ({ client
   }, [libraryURI, initialize])
 
   return (
-    <GoogleLoginContext.Provider value={{ ...auth, ...user, loggingIn, setLoggingIn }}>
+    <GoogleLoginContext.Provider value={{ available: true, ...auth, ...user, loggingIn, setLoggingIn }}>
       {children}
     </GoogleLoginContext.Provider>
   )
