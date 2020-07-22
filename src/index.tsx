@@ -253,8 +253,8 @@ export const getTokens = (user: GoogleUser): GoogleAuthTokens => {
 }
 
 export const useGoogleTokens = (): GoogleTokensContext => {
-  const { user } = useContext(GoogleLoginContext)
-  if (!user) {
+  const { user, isSignedIn } = useContext(GoogleLoginContext)
+  if (!user || !isSignedIn) {
     return { idToken: undefined, accessToken: undefined }
   }
   const { id_token: idToken, access_token: accessToken } = getTokens(user)
@@ -271,7 +271,11 @@ WithGoogleTokens.propTypes = {
 }
 
 export const useGoogleEmail = (): string | undefined => {
-  return useContext(GoogleLoginContext).user?.getBasicProfile().getEmail()
+  const { user, isSignedIn } = useContext(GoogleLoginContext)
+  if (!user || !isSignedIn) {
+    return undefined
+  }
+  return user?.getBasicProfile().getEmail()
 }
 interface WithGoogleEmailProps {
   children: (googleEmail: string | undefined) => JSX.Element | null
@@ -280,5 +284,24 @@ export const WithGoogleEmail: React.FC<WithGoogleEmailProps> = ({ children }) =>
   return children(useGoogleEmail())
 }
 WithGoogleEmail.propTypes = {
+  children: PropTypes.func.isRequired,
+}
+
+export const useBasicGoogleProfile = (): { email?: string; name?: string } => {
+  const { user, isSignedIn } = useContext(GoogleLoginContext)
+  if (!user || !isSignedIn) {
+    return {}
+  }
+  const profile = user?.getBasicProfile()
+  return profile ? { email: profile.getEmail(), name: profile.getName() } : {}
+}
+interface WithBasicGoogleProfileProps {
+  children: (googleEmail: string | undefined, googleName: string | undefined) => JSX.Element | null
+}
+export const WithBasicGoogleProfile: React.FC<WithBasicGoogleProfileProps> = ({ children }) => {
+  const { email, name } = useBasicGoogleProfile()
+  return children(email, name)
+}
+WithBasicGoogleProfile.propTypes = {
   children: PropTypes.func.isRequired,
 }
