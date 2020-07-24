@@ -26,7 +26,7 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "start": "concurrently -n example,src --handle-input \"npm run example\" \"npm run watch\"",
-    "tsc": "tsc --noEmit && cd example && tsc --noEmit",
+    "tsc": "tsc --noEmit",
     "prettier": "prettier \"**/*{.tsx,.ts,.json,.js,.md}\" \".*.js\" --write && prettier-package-json --write && cd example && prettier-package-json --write"
   },
   "types": "dist/index.d.ts",

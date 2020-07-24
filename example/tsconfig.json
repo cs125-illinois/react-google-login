@@ -17,6 +17,7 @@
     "types": ["node"],
     "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@cs125/react-google-login": [".."]
     }
